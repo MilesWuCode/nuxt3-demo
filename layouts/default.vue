@@ -5,7 +5,7 @@
     <Navbar />
 
     <!-- 中間 -->
-    <div class="flex h-[calc(100dvh-64px-68px)] flex-row">
+    <div class="flex min-h-[calc(100dvh-64px-68px)] flex-row">
       <!-- 左側主目錄 -->
       <MainMenu class="hidden lg:block" />
 
