@@ -1,18 +1,20 @@
 <template>
   <div class="drawer">
+    <!-- 切換的值 -->
     <input id="layout-default-drawer" type="checkbox" class="drawer-toggle" />
+
+    <!-- 頁面內容 -->
     <div class="drawer-content flex flex-col">
-      <!-- 頁面內容 -->
       <slot />
     </div>
+
+    <!-- 滑出內容 -->
     <div class="drawer-side">
+      <!-- 背景 -->
       <label for="layout-default-drawer" class="drawer-overlay"></label>
-      <!-- 滑出內容 -->
-      <ul class="menu bg-base-200 h-full w-80 p-4">
-        <!-- Sidebar content here -->
-        <li><a>Sidebar Item 1</a></li>
-        <li><a>Sidebar Item 2</a></li>
-      </ul>
+
+      <!-- 主目錄 -->
+      <MainMenu />
     </div>
   </div>
 </template>
