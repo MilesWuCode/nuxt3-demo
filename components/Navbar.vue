@@ -44,7 +44,10 @@
           <span class="badge badge-xs badge-primary indicator-item"></span>
         </div>
       </button>
-      <label for="layout-default-drawer" class="btn btn-circle btn-ghost">
+      <label
+        for="layout-default-drawer"
+        class="btn btn-circle btn-ghost lg:hidden"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
