@@ -8,6 +8,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
+  "overrides": {
+    "vue": "latest"
+  },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/node": "^18.17.3",
@@ -24,6 +27,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "pinia": "^2.1.6",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.5.1",
     "typescript": "^5.1.6"
