@@ -19,6 +19,6 @@ export default {
   plugins: [daisyui],
   daisyui: {
     // 空陣列為不使用
-    themes: [],
+    themes: ['light'],
   },
 } satisfies Config
