@@ -16,4 +16,8 @@ export default defineNuxtConfig({
       appName: process.env.APP_NAME,
     },
   },
+
+  auth: {
+    globalAppMiddleware: true,
+  },
 })

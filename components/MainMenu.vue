@@ -2,7 +2,6 @@
 const menu = [
   { name: 'Index', href: '/' },
   { name: 'Login', href: '/login' },
-  { name: 'Error', href: '/error' },
 ]
 
 const hideMenu = () => {

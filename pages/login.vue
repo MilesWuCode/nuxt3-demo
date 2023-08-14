@@ -1,3 +1,12 @@
+<script setup lang="ts">
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/',
+  },
+})
+</script>
+
 <template>
   <div class="container m-2">
     <!-- 標題 -->
@@ -14,10 +23,10 @@
 
         <!-- 其他登入 -->
         <div class="space-y-2">
-          <button class="btn w-full">
+          <SignInButton class="btn w-full" provider="google">
             <NuxtIcon name="google" />
             Google
-          </button>
+          </SignInButton>
           <button class="btn w-full">
             <NuxtIcon name="apple" />
             Apple
