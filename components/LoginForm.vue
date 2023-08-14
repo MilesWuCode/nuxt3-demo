@@ -44,7 +44,7 @@ function onInvalidSubmit({
   errors,
   results,
 }: InvalidSubmissionContext) {
-  // 欄位名
+  // field-name
   const name = Object.keys(errors)[0]
 
   // focus

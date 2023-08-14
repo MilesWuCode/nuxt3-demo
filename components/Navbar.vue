@@ -1,8 +1,14 @@
+<script setup lang="ts">
+const runtimeConfig = useRuntimeConfig()
+</script>
+
 <template>
   <div class="navbar bg-base-100">
     <div class="navbar-start">
       <!-- 左邊 -->
-      <a class="btn btn-ghost text-xl normal-case">Nuxt3 Demo</a>
+      <a class="btn btn-ghost text-xl normal-case">
+        {{ runtimeConfig.public.appName }}
+      </a>
     </div>
     <div class="navbar-center">
       <!-- 中間 -->
