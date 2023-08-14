@@ -46,12 +46,12 @@
             <button type="submit" class="btn btn-primary">Submit</button>
 
             <div class="flex justify-between space-x-2 text-sm">
-              <NustLink to="/register" class="link-primary link no-underline"
-                >Register Now</NustLink
-              >
-              <NustLink to="/forgot-password" class="link no-underline"
-                >Forgot Password</NustLink
-              >
+              <NuxtLink to="/register" class="link-primary link no-underline">
+                Register Now
+              </NuxtLink>
+              <NuxtLink to="/forgot-password" class="link no-underline">
+                Forgot Password
+              </NuxtLink>
             </div>
           </div>
         </form>
@@ -61,8 +61,14 @@
 
         <!-- 其他登入 -->
         <div class="space-y-2">
-          <button class="btn w-full"><NuxtIcon name="google" />Google</button>
-          <button class="btn w-full"><NuxtIcon name="apple" />Apple</button>
+          <button class="btn w-full">
+            <NuxtIcon name="google" />
+            Google
+          </button>
+          <button class="btn w-full">
+            <NuxtIcon name="apple" />
+            Apple
+          </button>
         </div>
       </div>
     </div>
