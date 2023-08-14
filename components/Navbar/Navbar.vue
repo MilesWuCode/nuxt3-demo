@@ -6,9 +6,9 @@ const runtimeConfig = useRuntimeConfig()
   <div class="navbar bg-base-100">
     <!-- 左邊 -->
     <div class="navbar-start">
-      <a class="btn btn-ghost text-xl normal-case">
+      <NuxtLink to="/" class="btn btn-ghost text-xl normal-case">
         {{ runtimeConfig.public.appName }}
-      </a>
+      </NuxtLink>
     </div>
 
     <!-- 中間 -->
