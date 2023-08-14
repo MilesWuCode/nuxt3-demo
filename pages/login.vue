@@ -16,7 +16,7 @@
               class="input input-bordered"
             />
             <label class="label">
-              <span class="label-text-alt text-red-500">Bottom Left label</span>
+              <span class="label-text-alt text-error">Bottom Left label</span>
               <span class="label-text-alt"></span>
             </label>
           </div>
@@ -29,10 +29,11 @@
             <input
               type="text"
               placeholder="Type here"
-              class="input input-bordered"
+              class="input input-bordered input-error"
             />
+
             <label class="label">
-              <span class="label-text-alt text-red-500">Bottom Left label</span>
+              <span class="label-text-alt text-error">Bottom Left label</span>
               <span class="label-text-alt"></span>
             </label>
           </div>
