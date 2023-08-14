@@ -6,6 +6,7 @@ import * as i18next from 'i18next'
 import * as zod from 'zod'
 import translation from 'zod-i18n-map/locales/zh-TW/zod.json'
 
+// i18n
 i18next.init({
   lng: 'zhTW',
   resources: {
@@ -15,6 +16,7 @@ i18next.init({
 
 zod.setErrorMap(zodI18nMap)
 
+// schema
 const validationSchema = toTypedSchema(
   zod.object({
     email: zod.string().nonempty().email(),
@@ -22,16 +24,21 @@ const validationSchema = toTypedSchema(
   }),
 )
 
+// form
 const { handleSubmit, errors, setFieldError, setErrors } = useForm({
   validationSchema,
 })
+
+// field
 const { value: email } = useField('email')
 const { value: password } = useField('password')
 
+// submit
 const onSubmit = handleSubmit((values) => {
   alert(JSON.stringify(values, null, 2))
 }, onInvalidSubmit)
 
+// error
 function onInvalidSubmit({
   values,
   errors,
