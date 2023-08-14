@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import { InvalidSubmissionContext, useField, useForm } from 'vee-validate'
-
 import { toTypedSchema } from '@vee-validate/zod'
-
+import { zodI18nMap } from 'zod-i18n-map'
+import * as i18next from 'i18next'
 import * as zod from 'zod'
+import translation from 'zod-i18n-map/locales/zh-TW/zod.json'
+
+i18next.init({
+  lng: 'zhTW',
+  resources: {
+    zhTW: { zod: translation },
+  },
+})
+
+zod.setErrorMap(zodI18nMap)
 
 const validationSchema = toTypedSchema(
   zod.object({
-    email: zod
-      .string()
-      .nonempty('This is required')
-      .email({ message: 'Must be a valid email' }),
-    password: zod
-      .string()
-      .nonempty('This is required')
-      .min(8, { message: 'Too short' }),
+    email: zod.string().nonempty().email(),
+    password: zod.string().nonempty().min(8),
   }),
 )
 
