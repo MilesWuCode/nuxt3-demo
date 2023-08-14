@@ -1,15 +1,15 @@
 <script setup lang="ts">
 const { status } = useAuth()
 
-const isLogin = computed(() => status.value === 'authenticated')
+const isSignIn = computed(() => status.value === 'authenticated')
 </script>
 
 <template>
-  <div v-if="isLogin" class="dropdown-end dropdown">
+  <div v-if="isSignIn" class="dropdown-end dropdown">
     <label tabindex="0" class="avatar btn btn-circle btn-ghost">
       <div class="w-10 rounded-full">
         <img
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII="
         />
       </div>
     </label>
