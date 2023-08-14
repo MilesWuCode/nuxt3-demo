@@ -4,17 +4,19 @@ const runtimeConfig = useRuntimeConfig()
 
 <template>
   <div class="navbar bg-base-100">
+    <!-- 左邊 -->
     <div class="navbar-start">
-      <!-- 左邊 -->
       <a class="btn btn-ghost text-xl normal-case">
         {{ runtimeConfig.public.appName }}
       </a>
     </div>
-    <div class="navbar-center">
-      <!-- 中間 -->
-    </div>
+
+    <!-- 中間 -->
+    <div class="navbar-center"></div>
+
+    <!-- 右邊 -->
     <div class="navbar-end">
-      <!-- 右邊 -->
+      <!-- 搜尋 -->
       <button class="btn btn-circle btn-ghost">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -31,6 +33,8 @@ const runtimeConfig = useRuntimeConfig()
           />
         </svg>
       </button>
+
+      <!-- 通知 -->
       <button class="btn btn-circle btn-ghost">
         <div class="indicator">
           <svg
@@ -50,6 +54,11 @@ const runtimeConfig = useRuntimeConfig()
           <span class="badge indicator-item badge-primary badge-xs"></span>
         </div>
       </button>
+
+      <!-- 用戶 -->
+      <NavbarUser />
+
+      <!-- 小板目錄按鈕 -->
       <label
         for="layout-default-drawer"
         class="btn btn-circle btn-ghost lg:hidden"
