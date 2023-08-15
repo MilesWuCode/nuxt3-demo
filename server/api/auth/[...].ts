@@ -38,7 +38,7 @@ export default NuxtAuthHandler({
 
         const user = await fetchUser(token)
 
-        return { ...user, token, udata: { ...user, token } }
+        return { udata: { ...user, token } }
       },
     }),
 
@@ -58,12 +58,9 @@ export default NuxtAuthHandler({
   callbacks: {
     // Callback when the JWT is created / updated, see https://next-auth.js.org/configuration/callbacks#jwt-callback
     jwt: ({ token, user, account }) => {
-      console.log('jwt', token, user, account)
+      // console.log('jwt', token, user, account)
 
       if (account && account.provider === 'credentials') {
-        token.id = user ? (user as any).id || '' : ''
-        token.token = user ? (user as any).token || '' : ''
-        token.image = user ? (user as any).avatar || '' : ''
         token.udata = user ? (user as any).udata || '' : ''
         return Promise.resolve(token)
       }
@@ -74,8 +71,6 @@ export default NuxtAuthHandler({
     session: ({ session, token }) => {
       // console.log('session', session, token)
       // ;(session as any).user.id = token.id
-      // ;(session as any).user.token = token.token
-      // ;(session as any).user.image = token.image
       ;(session as any).user = token.udata
       return Promise.resolve(session)
     },
