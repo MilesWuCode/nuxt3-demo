@@ -37,7 +37,6 @@ export default NuxtAuthHandler({
         const token = await login(credentials)
 
         const user = await fetchUser(token)
-        console.log('user', user)
 
         return { ...user, token }
       },
