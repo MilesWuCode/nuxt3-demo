@@ -18,6 +18,12 @@ export default defineNuxtConfig({
   },
 
   auth: {
-    globalAppMiddleware: true,
+    // 全域中間件檢查登入
+    // globalAppMiddleware: true,
+
+    provider: {
+      // local或authjs
+      type: 'authjs',
+    },
   },
 })

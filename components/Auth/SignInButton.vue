@@ -5,13 +5,13 @@ const { provider } = defineProps<{
   provider: string
 }>()
 
-const onClick = () => {
-  signIn(provider)
+const handelClick = async () => {
+  await signIn(provider)
 }
 </script>
 
 <template>
-  <button @click="onClick">
+  <button @click="handelClick">
     <slot />
   </button>
 </template>

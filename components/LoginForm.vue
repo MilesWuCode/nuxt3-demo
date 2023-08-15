@@ -27,15 +27,45 @@ const validationSchema = toTypedSchema(
 // form
 const { handleSubmit, errors, setFieldError, setErrors } = useForm({
   validationSchema,
+  initialValues: {
+    email: 'test@email.com',
+    password: 'password',
+  },
 })
 
 // field
 const { value: email } = useField('email')
 const { value: password } = useField('password')
 
+// auth
+const { signIn } = useAuth()
+
 // submit
 const onSubmit = handleSubmit((values) => {
-  alert(JSON.stringify(values, null, 2))
+  signIn('credentials', {
+    email: values.email,
+    password: values.password,
+    // redirect: false,
+  })
+
+  // console.log(signInResponse)
+  // 若redirect為false時不會重新刷新頁面到目的頁
+  // 可以使用回傳判別
+  // switch (signInResponse?.status) {
+  //   case 200:
+  //     // const url = new URL(signInResponse?.url || '/')
+
+  //     // router.push(url.searchParams.get('callbackUrl') || '/')
+  //     alert(200)
+
+  //     break
+  //   case 422:
+  //     alert(422)
+
+  //     break
+  //   default:
+  //     alert('unknow error')
+  // }
 }, onInvalidSubmit)
 
 // error
@@ -57,7 +87,7 @@ function onInvalidSubmit({
 </script>
 
 <template>
-  <form @submit="onSubmit">
+  <form @submit.prevent="onSubmit">
     <!-- 欄位 -->
     <div class="form-control">
       <label class="label">

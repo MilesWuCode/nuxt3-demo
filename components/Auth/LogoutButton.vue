@@ -1,7 +1,11 @@
 <script setup lang="ts">
 const { signOut } = useAuth()
+
+const handelClick = async () => {
+  await signOut()
+}
 </script>
 
 <template>
-  <button @click="() => signOut()">logout</button>
+  <button @click="handelClick">logout</button>
 </template>

@@ -7,7 +7,7 @@ const isSignIn = computed(() => status.value === 'authenticated')
 <template>
   <div v-if="isSignIn" class="dropdown-end dropdown">
     <label tabindex="0" class="avatar btn btn-circle btn-ghost">
-      <div class="w-10 rounded-full">
+      <div class="w-8 rounded-full">
         <img
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII="
         />
