@@ -49,7 +49,7 @@ const url = new URL(
 
 // submit
 const onSubmit = handleSubmit(async (values) => {
-  const signInResponse = await signIn('credentials', {
+  const signInResponse = await signIn('Credentials', {
     email: values.email,
     password: values.password,
     redirect: false,

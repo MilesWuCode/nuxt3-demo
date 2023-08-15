@@ -1,5 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
+  middleware: 'auth',
   auth: {
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: '/',
@@ -16,7 +17,9 @@ definePageMeta({
     <div class="flex justify-center">
       <div class="w-full max-w-sm">
         <!-- 表單 -->
-        <LoginForm />
+        <ClientOnly>
+          <LoginForm />
+        </ClientOnly>
 
         <!-- 水平線 -->
         <div class="divider">OR</div>
@@ -31,6 +34,9 @@ definePageMeta({
             <NuxtIcon name="apple" />
             Apple
           </button>
+          <AuthSignInButton class="btn w-full" provider="line">
+            Line
+          </AuthSignInButton>
         </div>
       </div>
     </div>

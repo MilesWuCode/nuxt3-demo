@@ -1,5 +1,6 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
+import LineProvider from 'next-auth/providers/line'
 import { NuxtAuthHandler } from '#auth'
 
 // 因為是server執行,使用env參數不用設定在runtimeConfig
@@ -42,5 +43,32 @@ export default NuxtAuthHandler({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+
+    // @ts-expect-error
+    LineProvider.default({
+      clientId: process.env.LINE_CLIENT_ID,
+      clientSecret: process.env.LINE_CLIENT_SECRET,
+    }),
   ],
+
+  callbacks: {
+    // Callback when the JWT is created / updated, see https://next-auth.js.org/configuration/callbacks#jwt-callback
+    jwt: ({ token, user, account }) => {
+      console.log('jwt', token, user, account)
+      const isSignIn = !!user
+      if (isSignIn) {
+        token.jwt = user ? (user as any).access_token || '' : ''
+        token.id = user ? user.id || '' : ''
+        token.role = user ? (user as any).role || '' : ''
+      }
+      return Promise.resolve(token)
+    },
+    // Callback whenever session is checked, see https://next-auth.js.org/configuration/callbacks#session-callback
+    session: ({ session, token }) => {
+      console.log('session', session, token)
+      ;(session as any).role = token.role
+      ;(session as any).uid = token.id
+      return Promise.resolve(session)
+    },
+  },
 })

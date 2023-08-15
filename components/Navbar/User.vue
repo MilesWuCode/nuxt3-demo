@@ -18,12 +18,8 @@ const isSignIn = computed(() => status.value === 'authenticated')
       class="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
     >
       <li>
-        <a class="justify-between">
-          Profile
-          <span class="badge">New</span>
-        </a>
+        <NuxtLink to="/profile" class="justify-between">Profile</NuxtLink>
       </li>
-      <li><a>Settings</a></li>
       <li><AuthLogoutButton>Logout</AuthLogoutButton></li>
     </ul>
   </div>
