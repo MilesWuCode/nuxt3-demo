@@ -40,32 +40,35 @@ const { value: password } = useField('password')
 // auth
 const { signIn } = useAuth()
 
+// router
+const route = useRoute()
+const router = useRouter()
+const url = new URL(
+  route.query.callbackUrl?.toString() || window.location.origin,
+)
+
 // submit
-const onSubmit = handleSubmit((values) => {
-  signIn('credentials', {
+const onSubmit = handleSubmit(async (values) => {
+  const signInResponse = await signIn('credentials', {
     email: values.email,
     password: values.password,
-    // redirect: false,
+    redirect: false,
   })
 
-  // console.log(signInResponse)
-  // 若redirect為false時不會重新刷新頁面到目的頁
+  // 若redirect為false時和定義signIn頁面不會重新刷新頁面到目的頁
   // 可以使用回傳判別
-  // switch (signInResponse?.status) {
-  //   case 200:
-  //     // const url = new URL(signInResponse?.url || '/')
+  switch (signInResponse?.status) {
+    case 200:
+      router.push(url.pathname)
 
-  //     // router.push(url.searchParams.get('callbackUrl') || '/')
-  //     alert(200)
+      break
+    case 422:
+      alert(422)
 
-  //     break
-  //   case 422:
-  //     alert(422)
-
-  //     break
-  //   default:
-  //     alert('unknow error')
-  // }
+      break
+    default:
+      alert('unknow error')
+  }
 }, onInvalidSubmit)
 
 // error

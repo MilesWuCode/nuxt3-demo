@@ -9,7 +9,7 @@ const route = useRoute()
 
 const handelClick = async () => {
   await signIn(provider, {
-    callbackUrl: route.query?.callbackUrl?.toString() || '/',
+    callbackUrl: route.query.callbackUrl?.toString() || '/',
   })
 }
 </script>
