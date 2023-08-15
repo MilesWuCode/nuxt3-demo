@@ -18,6 +18,8 @@ export default NuxtAuthHandler({
   providers: [
     // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
     CredentialsProvider.default({
+      // 識別用
+      id: 'credentials',
       // The name to display on the sign in form (e.g. 'Sign in with...')
       name: 'Credentials',
       // The credentials is used to generate a suitable form on the sign in page.
@@ -29,12 +31,15 @@ export default NuxtAuthHandler({
         password: { label: 'Password', type: 'password' },
       },
 
-      authorize(credentials: any) {
-        console.log(credentials)
-        return {
-          name: credentials.name,
-          email: credentials.email,
-        }
+      async authorize(credentials: any) {
+        // console.log('credentials', credentials)
+
+        const token = await login(credentials)
+
+        const user = await fetchUser(token)
+        console.log('user', user)
+
+        return { ...user, token }
       },
     }),
 
@@ -54,21 +59,47 @@ export default NuxtAuthHandler({
   callbacks: {
     // Callback when the JWT is created / updated, see https://next-auth.js.org/configuration/callbacks#jwt-callback
     jwt: ({ token, user, account }) => {
-      console.log('jwt', token, user, account)
-      const isSignIn = !!user
-      if (isSignIn) {
-        token.jwt = user ? (user as any).access_token || '' : ''
-        token.id = user ? user.id || '' : ''
-        token.role = user ? (user as any).role || '' : ''
+      // console.log('jwt', token, user, account)
+
+      if (account && account.provider === 'credentials') {
+        token.id = user ? (user as any).id || '' : ''
+        token.token = user ? (user as any).token || '' : ''
+        token.image = user ? (user as any).avatar || '' : ''
+        return Promise.resolve(token)
       }
+
       return Promise.resolve(token)
     },
     // Callback whenever session is checked, see https://next-auth.js.org/configuration/callbacks#session-callback
     session: ({ session, token }) => {
-      console.log('session', session, token)
-      ;(session as any).role = token.role
-      ;(session as any).uid = token.id
+      // console.log('session', session, token)
+      ;(session as any).user.id = token.id
+      ;(session as any).user.token = token.token
+      ;(session as any).user.image = token.image
       return Promise.resolve(session)
     },
   },
 })
+
+async function login(credentials: any) {
+  const { token } = await $fetch('http://localhost/api/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({
+      email: credentials.email,
+      password: credentials.password,
+    }),
+  })
+
+  return token
+}
+
+async function fetchUser(token: string) {
+  const { data } = await $fetch('http://localhost/api/me', {
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  })
+
+  return data
+}

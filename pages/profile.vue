@@ -16,8 +16,9 @@ const csrfToken = await getCsrfToken()
     <!-- 區塊 -->
     <div class="flex justify-center">
       <div class="w-full max-w-sm">
-        <p>providers: {{ providers }}</p>
-        <p>csrfToken: {{ csrfToken }}</p>
+        <pre>data:{{ data }}</pre>
+        <pre>providers:{{ providers }}</pre>
+        <pre>csrfToken:{{ csrfToken }}</pre>
       </div>
     </div>
   </div>
