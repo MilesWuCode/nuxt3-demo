@@ -5,13 +5,17 @@ import PasswordForm from '~/components/PasswordForm.vue'
 definePageMeta({
   middleware: 'auth',
 })
-const { data, status, getCsrfToken, getProviders } = useAuth()
 
-const providers = await getProviders()
-const csrfToken = await getCsrfToken()
+// 使用以下方法取得auth相關資料
+// const { data, status, getCsrfToken, getProviders } = useAuth()
 
-console.table(data.value)
-console.log(status.value, providers, csrfToken)
+// const providers = await getProviders()
+
+// const csrfToken = await getCsrfToken()
+
+// console.table(data.value)
+
+// console.log(status.value, providers, csrfToken)
 
 const currentTab = ref<'ProfileForm' | 'PasswordForm'>('ProfileForm')
 </script>
