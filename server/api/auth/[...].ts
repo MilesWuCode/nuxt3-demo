@@ -34,10 +34,13 @@ export default NuxtAuthHandler({
       async authorize(credentials: any) {
         // console.log('credentials', credentials)
 
+        // 取得token
         const token = await login(credentials)
 
+        // 取得用戶資料
         const user = await fetchUser(token)
 
+        // 一起放入
         return { udata: { ...user, token } }
       },
     }),
@@ -60,18 +63,28 @@ export default NuxtAuthHandler({
     jwt: ({ token, user, account }) => {
       // console.log('jwt', token, user, account)
 
+      // 使用signIn()時,user,account才會有資料
+
+      // 判別provider
       if (account && account.provider === 'credentials') {
+        // 把user的資料合併token
         token.udata = user ? (user as any).udata || '' : ''
+
+        // 送出jwt
         return Promise.resolve(token)
       }
 
+      // 第三方未完成先傳預設值
       return Promise.resolve(token)
     },
     // Callback whenever session is checked, see https://next-auth.js.org/configuration/callbacks#session-callback
     session: ({ session, token }) => {
       // console.log('session', session, token)
-      // ;(session as any).user.id = token.id
+
+      // jwt資料合併到session
       ;(session as any).user = token.udata
+
+      // 送出session
       return Promise.resolve(session)
     },
   },
