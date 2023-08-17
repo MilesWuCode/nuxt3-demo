@@ -35,13 +35,9 @@ export default NuxtAuthHandler({
         // console.log('credentials', credentials)
 
         // 取得token
-        const token = await login(credentials)
+        const signInToken = await login(credentials)
 
-        // 取得用戶資料
-        const user = await fetchUser(token)
-
-        // 一起放入
-        return { udata: { ...user, token } }
+        return { signInToken }
       },
     }),
 
@@ -60,29 +56,46 @@ export default NuxtAuthHandler({
 
   callbacks: {
     // Callback when the JWT is created / updated, see https://next-auth.js.org/configuration/callbacks#jwt-callback
-    jwt: ({ token, user, account }) => {
+    jwt: async ({ token, user, account }) => {
       // console.log('jwt', token, user, account)
 
       // 使用signIn()時,user,account才會有資料
+      // 不然就返回之前取得的JWT
 
-      // 判別provider
+      // api的token
+      let signInToken
+
+      // credentials登入
       if (account && account.provider === 'credentials') {
-        // 把user的資料合併token
-        token.udata = user ? (user as any).udata || '' : ''
-
-        // 送出jwt
-        return Promise.resolve(token)
+        signInToken = user ? (user as any).signInToken || '' : undefined
       }
 
-      // 第三方未完成先傳預設值
+      // google登入
+      if (account && account.provider === 'google' && account.access_token) {
+        signInToken = await socialiteSignIn(
+          account.provider,
+          account.access_token,
+        )
+      }
+
+      // 若取得用戶的token
+      if (signInToken) {
+        // 取得用戶資料
+        const fetchUserData = await fetchUser(signInToken)
+
+        // 加到JWT
+        token.user = { ...fetchUserData, signInToken }
+      }
+
+      // 返回JWT
       return Promise.resolve(token)
     },
     // Callback whenever session is checked, see https://next-auth.js.org/configuration/callbacks#session-callback
     session: ({ session, token }) => {
-      // console.log('session', session, token)
+      console.log('session', session, token)
 
-      // jwt資料合併到session
-      ;(session as any).user = token.udata
+      // jwt資料合併到session.user
+      ;(session as any).user = token.user
 
       // 送出session
       return Promise.resolve(session)
@@ -90,16 +103,23 @@ export default NuxtAuthHandler({
   },
 })
 
-async function login(credentials: any) {
-  const { token } = await $fetch('http://localhost/api/auth/login', {
-    method: 'POST',
-    body: JSON.stringify({
-      email: credentials.email,
-      password: credentials.password,
-    }),
-  })
+async function socialiteSignIn(provider: string, providerToken: string) {
+  try {
+    const { token }: { token: string } = await $fetch(
+      'http://localhost/api/socialite/signin',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          provider,
+          token: providerToken,
+        }),
+      },
+    )
 
-  return token
+    return token
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 async function fetchUser(token: string) {
@@ -111,4 +131,16 @@ async function fetchUser(token: string) {
   })
 
   return data
+}
+
+async function login(credentials: any) {
+  const { token } = await $fetch('http://localhost/api/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({
+      email: credentials.email,
+      password: credentials.password,
+    }),
+  })
+
+  return token
 }
