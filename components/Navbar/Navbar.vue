@@ -34,6 +34,9 @@ const runtimeConfig = useRuntimeConfig()
         </svg>
       </button>
 
+      <!-- 語系 -->
+      <LangButton />
+
       <!-- 通知 -->
       <button class="btn btn-circle btn-ghost">
         <div class="indicator">
