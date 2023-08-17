@@ -19,53 +19,25 @@ zod.setErrorMap(zodI18nMap)
 // schema
 const validationSchema = toTypedSchema(
   zod.object({
-    email: zod.string().nonempty().email(),
     password: zod.string().nonempty().min(8),
+    newPassword: zod.string().nonempty().min(8),
+    confirmPassword: zod.string().nonempty().min(8),
   }),
 )
 
 // form
 const { handleSubmit, errors, setFieldError, setErrors } = useForm({
   validationSchema,
-  initialValues: {
-    email: 'test@email.com',
-    password: 'password',
-  },
 })
 
 // field
-const { value: email } = useField('email')
 const { value: password } = useField('password')
-
-// auth
-const { signIn } = useAuth()
-
-// router
-const route = useRoute()
-const runtimeConfig = useRuntimeConfig()
-const url = new URL(
-  route.query.callbackUrl?.toString() || runtimeConfig.public.appUrl,
-)
+const { value: newPassword } = useField('newPassword')
+const { value: confirmPassword } = useField('confirmPassword')
 
 // submit
-const onSubmit = handleSubmit(async (values) => {
-  const signInResponse = await signIn('credentials', {
-    email: values.email,
-    password: values.password,
-    redirect: false,
-  })
-
-  console.log(signInResponse)
-
-  // 若redirect為false時和定義signIn頁面不會重新刷新頁面到目的頁
-  // 可以使用回傳error判別
-  if (signInResponse?.error) {
-    // Do your custom error handling here
-    setFieldError('email', '帳號或密碼錯誤')
-  } else {
-    // No error, continue with the sign in, e.g., by following the returned redirect:
-    return navigateTo(url.pathname)
-  }
+const onSubmit = handleSubmit((values) => {
+  console.log(values)
 }, onInvalidSubmit)
 
 // error
@@ -91,30 +63,6 @@ function onInvalidSubmit({
     <!-- 欄位 -->
     <div class="form-control">
       <label class="label">
-        <span class="label-text" :class="errors.email && 'text-error'">
-          Email address
-        </span>
-        <span class="label-text-alt"></span>
-      </label>
-
-      <input
-        v-model="email"
-        label="信箱"
-        name="email"
-        type="text"
-        class="input input-bordered"
-        :class="errors.email && 'input-error'"
-      />
-
-      <label class="label">
-        <span class="label-text-alt text-error">{{ errors.email }}</span>
-        <span class="label-text-alt"></span>
-      </label>
-    </div>
-
-    <!-- 欄位 -->
-    <div class="form-control">
-      <label class="label">
         <span class="label-text" :class="errors.password && 'text-error'">
           Password
         </span>
@@ -123,9 +71,9 @@ function onInvalidSubmit({
 
       <input
         v-model="password"
-        label="密碼"
+        label="名稱"
         name="password"
-        type="password"
+        type="text"
         class="input input-bordered"
         :class="errors.password && 'input-error'"
       />
@@ -136,18 +84,62 @@ function onInvalidSubmit({
       </label>
     </div>
 
+    <!-- 欄位 -->
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text" :class="errors.newPassword && 'text-error'">
+          New Password
+        </span>
+        <span class="label-text-alt"></span>
+      </label>
+
+      <input
+        v-model="newPassword"
+        label="名稱"
+        name="newPassword"
+        type="text"
+        class="input input-bordered"
+        :class="errors.newPassword && 'input-error'"
+      />
+
+      <label class="label">
+        <span class="label-text-alt text-error">{{ errors.newPassword }}</span>
+        <span class="label-text-alt"></span>
+      </label>
+    </div>
+
+    <!-- 欄位 -->
+    <div class="form-control">
+      <label class="label">
+        <span
+          class="label-text"
+          :class="errors.confirmPassword && 'text-error'"
+        >
+          Confirm Password
+        </span>
+        <span class="label-text-alt"></span>
+      </label>
+
+      <input
+        v-model="confirmPassword"
+        label="名稱"
+        name="confirmPassword"
+        type="text"
+        class="input input-bordered"
+        :class="errors.confirmPassword && 'input-error'"
+      />
+
+      <label class="label">
+        <span class="label-text-alt text-error">
+          {{ errors.confirmPassword }}
+        </span>
+        <span class="label-text-alt"></span>
+      </label>
+    </div>
+
     <!-- 按鈕 -->
     <div class="flex flex-col space-y-2">
       <button type="submit" class="btn btn-primary">Submit</button>
-
-      <div class="flex justify-between space-x-2 text-sm">
-        <NuxtLink to="/?register" class="link-primary link no-underline">
-          Register Now
-        </NuxtLink>
-        <NuxtLink to="/?forgot-password" class="link no-underline">
-          Forgot Password
-        </NuxtLink>
-      </div>
     </div>
   </form>
 </template>

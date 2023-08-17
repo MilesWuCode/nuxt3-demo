@@ -17,9 +17,7 @@ definePageMeta({
     <div class="flex justify-center">
       <div class="w-full max-w-sm">
         <!-- 表單 -->
-        <ClientOnly>
-          <LoginForm />
-        </ClientOnly>
+        <LoginForm />
 
         <!-- 水平線 -->
         <div class="divider">OR</div>
