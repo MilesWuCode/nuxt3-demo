@@ -108,7 +108,7 @@ export default NuxtAuthHandler({
 async function socialiteSignIn(provider: string, providerToken: string) {
   try {
     const { token }: { token: string } = await $fetch(
-      'http://localhost/api/socialite/signin',
+      `${process.env.API_ENDPOINT}/api/socialite/signin`,
       {
         method: 'POST',
         body: JSON.stringify({
@@ -125,7 +125,7 @@ async function socialiteSignIn(provider: string, providerToken: string) {
 }
 
 async function fetchUser(token: string) {
-  const { data } = await $fetch('http://localhost/api/me', {
+  const { data } = await $fetch(`${process.env.API_ENDPOINT}/api/me`, {
     method: 'GET',
     headers: {
       Authorization: 'Bearer ' + token,
@@ -136,7 +136,7 @@ async function fetchUser(token: string) {
 }
 
 async function login(credentials: any) {
-  const { token } = await $fetch('http://localhost/api/auth/login', {
+  const { token } = await $fetch(`${process.env.API_ENDPOINT}/api/auth/login`, {
     method: 'POST',
     body: JSON.stringify({
       email: credentials.email,
