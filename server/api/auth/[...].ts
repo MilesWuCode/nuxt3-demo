@@ -94,7 +94,7 @@ export default NuxtAuthHandler({
     },
     // Callback whenever session is checked, see https://next-auth.js.org/configuration/callbacks#session-callback
     session: ({ session, token }) => {
-      console.log('session', session, token)
+      // console.log('session', session, token)
 
       // jwt資料合併到session.user
       ;(session as any).user = token.user
