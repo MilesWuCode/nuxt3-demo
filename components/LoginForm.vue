@@ -42,7 +42,6 @@ const { signIn } = useAuth()
 
 // router
 const route = useRoute()
-const router = useRouter()
 const url = new URL(
   route.query.callbackUrl?.toString() || window.location.origin,
 )
@@ -55,19 +54,16 @@ const onSubmit = handleSubmit(async (values) => {
     redirect: false,
   })
 
+  console.log(signInResponse)
+
   // 若redirect為false時和定義signIn頁面不會重新刷新頁面到目的頁
-  // 可以使用回傳判別
-  switch (signInResponse?.status) {
-    case 200:
-      router.push(url.pathname)
-
-      break
-    case 422:
-      alert(422)
-
-      break
-    default:
-      alert('unknow error')
+  // 可以使用回傳error判別
+  if (signInResponse?.error) {
+    // Do your custom error handling here
+    setFieldError('email', '帳號或密碼錯誤')
+  } else {
+    // No error, continue with the sign in, e.g., by following the returned redirect:
+    return navigateTo(url.pathname)
   }
 }, onInvalidSubmit)
 

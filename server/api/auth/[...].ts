@@ -20,6 +20,8 @@ export default NuxtAuthHandler({
     CredentialsProvider.default({
       // 識別用
       id: 'credentials',
+
+      // 顯示用
       // The name to display on the sign in form (e.g. 'Sign in with...')
       name: 'Credentials',
       // The credentials is used to generate a suitable form on the sign in page.
