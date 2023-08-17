@@ -28,8 +28,8 @@ const currentTab = ref<'ProfileForm' | 'PasswordForm'>('ProfileForm')
     <!-- 區塊 -->
     <div class="flex justify-center">
       <div class="w-full max-w-sm">
-        <!-- md -->
-        <div class="tabs">
+        <!-- 分頁 -->
+        <div class="tabs my-2">
           <a
             class="tab tab-lifted"
             :class="currentTab === 'ProfileForm' && 'tab-active'"
@@ -45,6 +45,8 @@ const currentTab = ref<'ProfileForm' | 'PasswordForm'>('ProfileForm')
             Change Password
           </a>
         </div>
+
+        <!-- 顯示分頁組件 -->
         <Component
           :is="currentTab === 'ProfileForm' ? ProfileForm : PasswordForm"
         />
