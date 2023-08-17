@@ -19,8 +19,9 @@ zod.setErrorMap(zodI18nMap)
 // schema
 const validationSchema = toTypedSchema(
   zod.object({
+    name: zod.string().nonempty(),
+    email: zod.string().nonempty().email(),
     password: zod.string().nonempty().min(8),
-    newPassword: zod.string().nonempty().min(8),
     confirmPassword: zod.string().nonempty().min(8),
   }),
 )
@@ -28,11 +29,18 @@ const validationSchema = toTypedSchema(
 // form
 const { handleSubmit, errors, setFieldError, setErrors } = useForm({
   validationSchema,
+  initialValues: {
+    name: 'jack',
+    email: 'jack@email.com',
+    password: 'password',
+    confirmPassword: 'password',
+  },
 })
 
 // field
+const { value: name } = useField('name')
+const { value: email } = useField('email')
 const { value: password } = useField('password')
-const { value: newPassword } = useField('newPassword')
 const { value: confirmPassword } = useField('confirmPassword')
 
 // submit
@@ -63,6 +71,54 @@ function onInvalidSubmit({
     <!-- 欄位 -->
     <div class="form-control">
       <label class="label">
+        <span class="label-text" :class="errors.name && 'text-error'">
+          Name
+        </span>
+        <span class="label-text-alt"></span>
+      </label>
+
+      <input
+        v-model="name"
+        label="名稱"
+        name="name"
+        type="text"
+        class="input input-bordered"
+        :class="errors.name && 'input-error'"
+      />
+
+      <label class="label">
+        <span class="label-text-alt text-error">{{ errors.name }}</span>
+        <span class="label-text-alt"></span>
+      </label>
+    </div>
+
+    <!-- 欄位 -->
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text" :class="errors.email && 'text-error'">
+          Email address
+        </span>
+        <span class="label-text-alt"></span>
+      </label>
+
+      <input
+        v-model="email"
+        label="信箱"
+        name="email"
+        type="text"
+        class="input input-bordered"
+        :class="errors.email && 'input-error'"
+      />
+
+      <label class="label">
+        <span class="label-text-alt text-error">{{ errors.email }}</span>
+        <span class="label-text-alt"></span>
+      </label>
+    </div>
+
+    <!-- 欄位 -->
+    <div class="form-control">
+      <label class="label">
         <span class="label-text" :class="errors.password && 'text-error'">
           Password
         </span>
@@ -80,30 +136,6 @@ function onInvalidSubmit({
 
       <label class="label">
         <span class="label-text-alt text-error">{{ errors.password }}</span>
-        <span class="label-text-alt"></span>
-      </label>
-    </div>
-
-    <!-- 欄位 -->
-    <div class="form-control">
-      <label class="label">
-        <span class="label-text" :class="errors.newPassword && 'text-error'">
-          New Password
-        </span>
-        <span class="label-text-alt"></span>
-      </label>
-
-      <input
-        v-model="newPassword"
-        label="新密碼"
-        name="newPassword"
-        type="password"
-        class="input input-bordered"
-        :class="errors.newPassword && 'input-error'"
-      />
-
-      <label class="label">
-        <span class="label-text-alt text-error">{{ errors.newPassword }}</span>
         <span class="label-text-alt"></span>
       </label>
     </div>
@@ -140,6 +172,10 @@ function onInvalidSubmit({
     <!-- 按鈕 -->
     <div class="flex flex-col space-y-2">
       <button type="submit" class="btn btn-primary">Submit</button>
+
+      <NuxtLink to="/login" class="link-primary link text-sm no-underline">
+        Back To Login
+      </NuxtLink>
     </div>
   </form>
 </template>

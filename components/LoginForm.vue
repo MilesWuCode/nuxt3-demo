@@ -141,11 +141,11 @@ function onInvalidSubmit({
       <button type="submit" class="btn btn-primary">Submit</button>
 
       <div class="flex justify-between space-x-2 text-sm">
-        <NuxtLink to="/?register" class="link-primary link no-underline">
+        <NuxtLink to="/register" class="link-primary link no-underline">
           Register Now
         </NuxtLink>
         <NuxtLink to="/?forgot-password" class="link no-underline">
-          Forgot Password
+          Forgot Password ?
         </NuxtLink>
       </div>
     </div>

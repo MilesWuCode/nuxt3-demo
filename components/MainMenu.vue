@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const menu = [
   { name: 'Index', href: '/' },
+  { name: 'Register', href: '/register' },
   { name: 'Login', href: '/login' },
   { name: 'Profile', href: '/profile' },
 ]
