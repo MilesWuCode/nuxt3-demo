@@ -21,11 +21,13 @@ watch(locale, (newVal) => {
   // 切換語系
   i18next.changeLanguage(newVal)
 
-  // 立即更新錯誤提示語系,但會觸發驗證
+  // 1.立即更新錯誤提示語系,但會觸發驗證
   meta.value.dirty && validate()
 
-  // 若有api回傳錯誤的欄位,建議重置表單
+  // 2.若有api回傳錯誤的欄位,建議重置表單
   // resetForm()
+
+  // 3.不執行1或2,因為無法更新api回傳錯誤的欄位
 })
 
 zod.setErrorMap(zodI18nMap)
