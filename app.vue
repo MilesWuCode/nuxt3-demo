@@ -1,6 +1,6 @@
 <template>
   <!-- data-theme:daisyui主題 -->
-  <Html lang="zh-TW" data-theme="light">
+  <Html lang="zh-Hant" data-theme="light">
     <Body>
       <NuxtLayout>
         <!-- 進度條 -->

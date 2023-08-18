@@ -35,7 +35,7 @@ const runtimeConfig = useRuntimeConfig()
       </button>
 
       <!-- 語系 -->
-      <LangButton />
+      <LanguageSwitchButton />
 
       <!-- 通知 -->
       <button class="btn btn-circle btn-ghost">

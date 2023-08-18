@@ -34,7 +34,7 @@ export default NuxtAuthHandler({
       },
 
       async authorize(credentials: any) {
-        // console.log('credentials', credentials)
+        console.log('credentials', credentials)
 
         // 取得token
         const signInToken = await login(credentials)
