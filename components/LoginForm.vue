@@ -4,8 +4,8 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { zodI18nMap } from 'zod-i18n-map'
 import * as i18next from 'i18next'
 import * as zod from 'zod'
-import zhHant from 'zod-i18n-map/locales/zh-TW/zod.json'
 import ja from 'zod-i18n-map/locales/ja/zod.json'
+import zhHant from 'zod-i18n-map/locales/zh-TW/zod.json'
 const { locale } = useI18n()
 
 // i18n
@@ -18,7 +18,11 @@ i18next.init({
 })
 
 watch(locale, (newVal) => {
+  // 切換語系
   i18next.changeLanguage(newVal)
+
+  meta.value.dirty && validate()
+  // 立即更新錯誤提示語系,但會觸發驗證
 })
 
 zod.setErrorMap(zodI18nMap)
@@ -32,11 +36,19 @@ const validationSchema = toTypedSchema(
 )
 
 // form
-const { handleSubmit, errors, setFieldError, setErrors } = useForm({
+const {
+  handleSubmit,
+  errors,
+  setFieldError,
+  setErrors,
+  resetForm,
+  validate,
+  meta,
+} = useForm({
   validationSchema,
   initialValues: {
-    email: 'test@email.com',
-    password: 'password',
+    // email: 'test@email.com',
+    // password: 'password',
   },
 })
 
