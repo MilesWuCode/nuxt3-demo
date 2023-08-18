@@ -6,7 +6,7 @@ import * as i18next from 'i18next'
 import * as zod from 'zod'
 import ja from 'zod-i18n-map/locales/ja/zod.json'
 import zhHant from 'zod-i18n-map/locales/zh-TW/zod.json'
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 
 // i18n
 i18next.init({
@@ -74,13 +74,13 @@ const onSubmit = handleSubmit(async (values) => {
     redirect: false,
   })
 
-  console.log(signInResponse)
+  // console.log('signInResponse', signInResponse)
 
   // 若redirect為false時和定義signIn頁面不會重新刷新頁面到目的頁
   // 可以使用回傳error判別
   if (signInResponse?.error) {
     // Do your custom error handling here
-    setFieldError('email', '帳號或密碼錯誤')
+    setFieldError('email', t('帳號或密碼錯誤'))
   } else {
     // No error, continue with the sign in, e.g., by following the returned redirect:
     return navigateTo(url.pathname)
