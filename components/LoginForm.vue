@@ -37,18 +37,18 @@ const validationSchema = toTypedSchema(
 
 // form
 const {
-  handleSubmit,
   errors,
-  setFieldError,
-  setErrors,
-  resetForm,
-  validate,
+  handleSubmit,
   meta,
+  // resetForm,
+  // setErrors,
+  setFieldError,
+  validate,
 } = useForm({
   validationSchema,
   initialValues: {
-    // email: 'test@email.com',
-    // password: 'password',
+    email: 'test@email.com',
+    password: 'password',
   },
 })
 
@@ -163,7 +163,7 @@ function onInvalidSubmit({
         <NuxtLink to="/register" class="link-primary link no-underline">
           Register Now
         </NuxtLink>
-        <NuxtLink to="/?forgot-password" class="link no-underline">
+        <NuxtLink to="/?forgot-password" class="link-primary link no-underline">
           Forgot Password ?
         </NuxtLink>
       </div>
