@@ -4,14 +4,21 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { zodI18nMap } from 'zod-i18n-map'
 import * as i18next from 'i18next'
 import * as zod from 'zod'
-import translation from 'zod-i18n-map/locales/zh-TW/zod.json'
+import zhHant from 'zod-i18n-map/locales/zh-TW/zod.json'
+import ja from 'zod-i18n-map/locales/ja/zod.json'
+const { locale } = useI18n()
 
 // i18n
 i18next.init({
-  lng: 'zhTW',
+  lng: locale.value,
   resources: {
-    zhTW: { zod: translation },
+    'zh-Hant': { zod: zhHant },
+    ja: { zod: ja },
   },
+})
+
+watch(locale, (newVal) => {
+  i18next.changeLanguage(newVal)
 })
 
 zod.setErrorMap(zodI18nMap)
