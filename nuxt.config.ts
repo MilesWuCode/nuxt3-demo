@@ -20,16 +20,15 @@ export default defineNuxtConfig({
   },
 
   auth: {
-    // 全域中間件檢查登入
-    // globalAppMiddleware: true,
+    // globalAppMiddleware: true, // 全域中間件檢查登入
 
     provider: {
-      // local或authjs
-      type: 'authjs',
+      type: 'authjs', // local或authjs
     },
   },
 
   i18n: {
+    strategy: 'no_prefix', // 網址的四種策略,no_prefix,prefix_except_default,prefix,prefix_and_default
     vueI18n: './i18n.config.ts',
     defaultLocale: 'zh-Hant',
     lazy: true,
@@ -37,11 +36,13 @@ export default defineNuxtConfig({
     locales: [
       {
         code: 'zh-Hant',
+        iso: 'zh-Hant',
         file: 'zh-Hant.json',
         name: '繁體中文',
       },
       {
         code: 'ja',
+        iso: 'ja',
         file: 'ja.json',
         name: '日本語',
       },
