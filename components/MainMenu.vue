@@ -4,6 +4,7 @@ const menu = [
   { name: 'Register', href: '/register' },
   { name: 'Login', href: '/login' },
   { name: 'Profile', href: '/profile' },
+  { name: 'Todo', href: '/todo' },
 ]
 
 const hideMenu = () => {
