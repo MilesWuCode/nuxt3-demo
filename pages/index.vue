@@ -1,12 +1,4 @@
-<script setup lang="ts">
-definePageMeta({
-  middleware: 'auth',
-  auth: {
-    unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/',
-  },
-})
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="container m-2">
