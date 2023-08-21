@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useLocalStorage } from '@vueuse/core'
 
 export type Todo = {
   id: string | number
@@ -8,15 +9,21 @@ export type Todo = {
 
 export type Filter = 'all' | 'active' | 'completed'
 
-type TodoState = {
-  list: Todo[]
-}
-
 export const useTodoStore = defineStore('todo', {
-  state: (): TodoState => {
-    return {
-      list: [] as Todo[],
-    }
+  state: () => ({
+    list: useLocalStorage<Todo[]>('pinia/list', []),
+  }),
+  hydrate(state, initialState) {
+    // @ts-expect-error
+    const x: string = 123
+
+    console.log(initialState, x)
+
+    // in this case we can completely ignore the initial state since we
+    // want to read the value from the browser
+
+    // @ts-expect-error: https://github.com/microsoft/TypeScript/issues/43826
+    state.list = useLocalStorage<Todo[]>('pinia/list', [])
   },
   getters: {
     total: (state) => state.list.length,
