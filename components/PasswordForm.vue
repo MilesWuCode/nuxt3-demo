@@ -4,29 +4,59 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { zodI18nMap } from 'zod-i18n-map'
 import * as i18next from 'i18next'
 import * as zod from 'zod'
-import translation from 'zod-i18n-map/locales/zh-TW/zod.json'
+import ja from 'zod-i18n-map/locales/ja/zod.json'
+import zhHant from 'zod-i18n-map/locales/zh-TW/zod.json'
 
-// i18n
+// 語系
+const { locale, t } = useI18n()
+
 i18next.init({
-  lng: 'zhTW',
+  lng: locale.value,
   resources: {
-    zhTW: { zod: translation },
+    'zh-Hant': { zod: zhHant },
+    ja: { zod: ja },
   },
+})
+
+watch(locale, (newVal) => {
+  // 切換語系
+  i18next.changeLanguage(newVal)
+
+  // 1.立即更新錯誤提示語系,但會觸發驗證
+  meta.value.dirty && validate()
+
+  // 2.若有api回傳錯誤的欄位,建議重置表單
+  // resetForm()
+
+  // 3.不執行1或2,因為無法更新api回傳錯誤的欄位
 })
 
 zod.setErrorMap(zodI18nMap)
 
 // schema
 const validationSchema = toTypedSchema(
-  zod.object({
-    password: zod.string().nonempty().min(8),
-    newPassword: zod.string().nonempty().min(8),
-    confirmPassword: zod.string().nonempty().min(8),
-  }),
+  zod
+    .object({
+      password: zod.string().nonempty().min(8),
+      newPassword: zod.string().nonempty().min(8),
+      confirmPassword: zod.string().nonempty().min(8),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t('與密碼不一致'),
+      path: ['confirmPassword'],
+    }),
 )
 
 // form
-const { handleSubmit, errors, setFieldError, setErrors } = useForm({
+const {
+  errors,
+  handleSubmit,
+  meta,
+  // resetForm,
+  // setErrors,
+  // setFieldError,
+  validate,
+} = useForm({
   validationSchema,
 })
 

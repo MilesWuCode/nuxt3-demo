@@ -6,9 +6,10 @@ import * as i18next from 'i18next'
 import * as zod from 'zod'
 import ja from 'zod-i18n-map/locales/ja/zod.json'
 import zhHant from 'zod-i18n-map/locales/zh-TW/zod.json'
+
+// 語系
 const { locale, t } = useI18n()
 
-// i18n
 i18next.init({
   lng: locale.value,
   resources: {
@@ -25,7 +26,7 @@ watch(locale, (newVal) => {
   meta.value.dirty && validate()
 
   // 2.若有api回傳錯誤的欄位,建議重置表單
-  // resetForm()
+  resetForm()
 
   // 3.不執行1或2,因為無法更新api回傳錯誤的欄位
 })
@@ -45,7 +46,7 @@ const {
   errors,
   handleSubmit,
   meta,
-  // resetForm,
+  resetForm,
   // setErrors,
   setFieldError,
   validate,
