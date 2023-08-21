@@ -31,8 +31,8 @@ const onRemove = () => {
       false-value="active"
       type="checkbox"
       class="checkbox flex-none"
-      @change="onChange"
       data-test="stateChangeButton"
+      @change="onChange"
     />
 
     <!-- content -->
@@ -45,6 +45,12 @@ const onRemove = () => {
     </div>
 
     <!-- delete button -->
-    <button class="btn btn-sm flex-none" @click="onRemove" data-test="deleteButton">Del</button>
+    <button
+      class="btn btn-sm flex-none"
+      data-test="deleteButton"
+      @click="onRemove"
+    >
+      Del
+    </button>
   </div>
 </template>
