@@ -3,11 +3,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
+    '@nuxtjs/i18n',
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
-    'nuxt-icons',
     '@sidebase/nuxt-auth',
-    '@nuxtjs/i18n',
+    '@vueuse/nuxt',
+    'nuxt-icons',
   ],
 
   runtimeConfig: {
