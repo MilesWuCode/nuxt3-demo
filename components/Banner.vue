@@ -1,3 +1,4 @@
+<!-- 換頁時有問題 -->
 <template>
   <picture class="w-full">
     <source srcset="/images/768x384.png" media="(min-width: 768px)" />
