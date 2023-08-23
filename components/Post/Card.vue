@@ -1,10 +1,13 @@
 <template>
   <div class="card-compact card w-96 border border-base-300 bg-base-100">
     <figure>
-      <img
-        src="https://picsum.photos/384/192"
-        class="h-48 w-96 object-cover"
-        alt="Shoes"
+      <NuxtImg
+        src="http://localhost:3000/images/1024x512.png"
+        width="384"
+        height="192"
+        fit="cover"
+        loading="lazy"
+        alt="post image"
       />
     </figure>
     <div class="card-body">

@@ -21,7 +21,7 @@ const currentTab = ref<'ProfileForm' | 'PasswordForm'>('ProfileForm')
 </script>
 
 <template>
-  <div class="container m-2">
+  <div>
     <!-- 標題 -->
     <h1 class="flex justify-center text-2xl">Profile</h1>
 

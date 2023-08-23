@@ -12,7 +12,9 @@
       <MainMenu class="hidden lg:block" />
 
       <!-- 右側頁面內容 -->
-      <slot />
+      <div class="container mx-auto">
+        <slot />
+      </div>
     </div>
 
     <!-- 頁腳 -->
