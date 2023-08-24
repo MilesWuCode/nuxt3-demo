@@ -2,7 +2,7 @@
   <div class="card-compact card w-96 border border-base-300 bg-base-100">
     <figure>
       <NuxtImg
-        src="http://localhost:3000/images/1024x512.png"
+        src="/img/c1.jpg"
         width="384"
         height="192"
         fit="cover"
