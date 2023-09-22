@@ -6,6 +6,8 @@ import * as i18next from 'i18next'
 import * as zod from 'zod'
 import translation from 'zod-i18n-map/locales/zh-TW/zod.json'
 
+const router = useRouter()
+
 // i18n
 i18next.init({
   lng: 'zhTW',
@@ -19,7 +21,7 @@ zod.setErrorMap(zodI18nMap)
 // schema
 const validationSchema = toTypedSchema(
   zod.object({
-    name: zod.string().nonempty(),
+    name: zod.string(),
     email: zod.string().nonempty().email(),
     password: zod.string().nonempty().min(8),
     confirmPassword: zod.string().nonempty().min(8),
@@ -44,8 +46,44 @@ const { value: password } = useField('password')
 const { value: confirmPassword } = useField('confirmPassword')
 
 // submit
-const onSubmit = handleSubmit((values) => {
-  console.log(values)
+const onSubmit = handleSubmit(async (values) => {
+  // console.log(values)
+
+  await useFetch('/laravel-api/auth/register', {
+    method: 'post',
+    body: {
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      comfirm_password: values.confirmPassword,
+    },
+    onRequest({ request, options }) {
+      // Set the request headers
+      console.log(request, options)
+    },
+    onRequestError({ request, options, error }) {
+      // Handle the request errors
+      console.log(request, options, error)
+    },
+    onResponse({ request, response, options }) {
+      // Process the response data
+      console.log(request, response, options)
+
+      if (response.status === 200) {
+        router.push('/login')
+      }
+    },
+    onResponseError({ request, response, options }) {
+      // Handle the response errors
+      console.log(request, response, options)
+
+      if (response.status === 422) {
+        console.log(response._data)
+
+        setErrors(response._data.errors)
+      }
+    },
+  })
 }, onInvalidSubmit)
 
 // error
