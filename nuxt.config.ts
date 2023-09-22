@@ -57,4 +57,12 @@ export default defineNuxtConfig({
       alwaysRedirect: true, // 重定向並保留選擇
     },
   },
+
+  nitro: {
+    routeRules: {
+      '/laravel10-api/**': {
+        proxy: process.env.API_ENDPOINT + '/api/**',
+      },
+    },
+  },
 })
