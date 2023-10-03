@@ -9,7 +9,7 @@
     </div>
 
     <!-- 滑出內容 -->
-    <div class="drawer-side">
+    <div class="drawer-side z-10">
       <!-- 背景 -->
       <label for="layout-default-drawer" class="drawer-overlay"></label>
 
