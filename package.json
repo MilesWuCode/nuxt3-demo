@@ -1,6 +1,7 @@
 {
   "name": "nuxt-app",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -9,13 +10,12 @@
     "postinstall": "nuxt prepare",
     "prisma:studio": "npx prisma studio"
   },
-  "overrides": {
-    "vue": "latest"
-  },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/node": "^18.17.3",
-    "nuxt": "^3.6.5"
+    "nuxt": "^3.7.4",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
   },
   "dependencies": {
     "@nuxt/image": "^1.0.0-rc.1",
