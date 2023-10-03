@@ -1,24 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { Todo } from '@/stores/todo'
+import { storeToRefs } from 'pinia'
+import { type Todo, useTodoStore } from '@/stores/todo'
 
 const props = defineProps<{
   todo: Todo
 }>()
 
-const emit = defineEmits<{
-  (e: 'changeState', id: string | number, state: Todo['state']): void
-  (e: 'removeTodo', id: string | number): void
-}>()
+const store = useTodoStore()
 
-const state = ref(props.todo.state)
+// 可用storeToRefs
+const { list } = storeToRefs(store)
 
-const onChange = () => {
-  emit('changeState', props.todo.id, state.value)
-}
+const state = computed({
+  get() {
+    return (
+      // 若不用storeToRefs:store.list.find(...)
+      list.value.find((item) => item.id === props.todo.id)?.state || 'active'
+    )
+  },
+  set(newVal) {
+    store.changeState(props.todo.id, newVal)
+  },
+})
 
 const onRemove = () => {
-  emit('removeTodo', props.todo.id)
+  store.remove(props.todo.id)
 }
 </script>
 
@@ -32,7 +38,6 @@ const onRemove = () => {
       type="checkbox"
       class="checkbox flex-none"
       data-test="stateChangeButton"
-      @change="onChange"
     />
 
     <!-- content -->

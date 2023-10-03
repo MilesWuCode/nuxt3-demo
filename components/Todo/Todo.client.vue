@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Item from './Item.vue'
-import { type Todo, type Filter, useTodoStore } from '@/stores/todo'
+import { type Filter, useTodoStore } from '@/stores/todo'
 
 defineOptions({
   // 取名,devtools顯示
@@ -31,14 +31,6 @@ const addTodo = () => {
   })
 
   input.value = ''
-}
-
-const changeState = (id: string | number, state: Todo['state']) => {
-  store.changeState(id, state)
-}
-
-const removeTodo = (id: string | number) => {
-  store.remove(id)
 }
 </script>
 
@@ -83,12 +75,7 @@ const removeTodo = (id: string | number) => {
     <!-- list -->
     <ul class="space-y-2">
       <li v-for="item in store.filterByState(filter)" :key="item.id">
-        <Item
-          :todo="item"
-          data-test="todoItem"
-          @change-state="changeState"
-          @remove-todo="removeTodo"
-        />
+        <Item :todo="item" data-test="todoItem" />
       </li>
     </ul>
   </div>
