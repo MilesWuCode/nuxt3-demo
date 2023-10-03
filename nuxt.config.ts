@@ -58,11 +58,12 @@ export default defineNuxtConfig({
     },
   },
 
-  vue: {
-    compilerOptions: {
-      isCustomElement: (tag) => tag.startsWith('swiper-'),
-    },
-  },
+  // vue: {
+  //   compilerOptions: {
+  //     // 目前沒用到swiper-element
+  //     isCustomElement: (tag) => tag.startsWith('swiper-'),
+  //   },
+  // },
 
   nitro: {
     routeRules: {
