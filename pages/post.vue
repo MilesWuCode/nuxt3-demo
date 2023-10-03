@@ -5,9 +5,11 @@
 
     <!-- 區塊 -->
     <div class="flex flex-col items-center">
-      <Banner />
+      <div class="h-60 w-full">
+        <Banner />
+      </div>
 
-      <PostCard />
+      <!-- <PostCard /> -->
     </div>
   </div>
 </template>

@@ -58,6 +58,12 @@ export default defineNuxtConfig({
     },
   },
 
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag.startsWith('swiper-'),
+    },
+  },
+
   nitro: {
     routeRules: {
       '/laravel-api/**': {
