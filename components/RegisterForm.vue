@@ -29,7 +29,7 @@ const validationSchema = toTypedSchema(
 )
 
 // form
-const { handleSubmit, errors, setFieldError, setErrors } = useForm({
+const { handleSubmit, errors, setErrors } = useForm({
   validationSchema,
   initialValues: {
     name: 'jack',
@@ -46,10 +46,10 @@ const { value: password } = useField('password')
 const { value: confirmPassword } = useField('confirmPassword')
 
 // submit
-const onSubmit = handleSubmit(async (values) => {
+const onSubmit = handleSubmit((values) => {
   // console.log(values)
 
-  await useFetch('/laravel-api/auth/register', {
+  useFetch('/laravel-api/auth/register', {
     method: 'post',
     body: {
       name: values.name,
@@ -70,6 +70,7 @@ const onSubmit = handleSubmit(async (values) => {
       console.log(request, response, options)
 
       if (response.status === 200) {
+        // 成功
         router.push('/login')
       }
     },
