@@ -7,15 +7,17 @@ definePageMeta({
 })
 
 // 使用以下方法取得auth相關資料
-// const { data, status, getCsrfToken, getProviders } = useAuth()
+const { data, status, getCsrfToken, getProviders, getSession } = useAuth()
 
-// const providers = await getProviders()
+const providers = await getProviders()
 
-// const csrfToken = await getCsrfToken()
+const csrfToken = await getCsrfToken()
 
-// console.table(data.value)
+const session = await getSession()
 
-// console.log(status.value, providers, csrfToken)
+console.table(data.value)
+
+console.log(status.value, providers, csrfToken, session)
 
 const currentTab = ref<'ProfileForm' | 'PasswordForm'>('ProfileForm')
 </script>
