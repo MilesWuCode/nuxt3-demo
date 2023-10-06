@@ -38,7 +38,7 @@ const { data } = useAuth()
 
 // submit
 const onSubmit = handleSubmit((values) => {
-  useFetch('/laravel-api/me', {
+  useFetch('/laravel/api/me', {
     method: 'put',
     body: {
       name: values.name,

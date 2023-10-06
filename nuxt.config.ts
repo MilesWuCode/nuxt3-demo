@@ -67,8 +67,8 @@ export default defineNuxtConfig({
 
   nitro: {
     routeRules: {
-      '/laravel-api/**': {
-        proxy: process.env.API_ENDPOINT + '/api/**',
+      '/laravel/**': {
+        proxy: process.env.API_ENDPOINT + '/**',
       },
     },
   },
