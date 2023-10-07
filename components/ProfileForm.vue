@@ -23,35 +23,40 @@ const validationSchema = toTypedSchema(
   }),
 )
 
+const { data } = await useAuth()
+
+const { data: userData } = await useFetch('/laravel/api/me', {
+  headers: {
+    authorization: 'Bearer ' + (data.value?.user?.signInToken as string),
+  },
+})
+
 // form
 const { handleSubmit, errors, setFieldError, setErrors } = useForm({
   validationSchema,
   initialValues: {
-    name: 'test',
+    name: userData.value?.data.name || '',
   },
 })
 
 // field
 const { value: name } = useField('name')
 
-const { data } = useAuth()
-
 // submit
-const onSubmit = handleSubmit((values) => {
-  useFetch('/laravel/api/me', {
+const onSubmit = handleSubmit(async (values) => {
+  await useFetch('/laravel/api/me', {
     method: 'put',
     body: {
       name: values.name,
     },
     headers: {
-      authorization:
-        'Bearer ' + (data.value?.user?.signInToken as string) || '',
+      authorization: 'Bearer ' + (data.value?.user?.signInToken as string),
     },
     onResponse({ request, response, options }) {
       // Process the response data
       console.log(request, response, options)
 
-      if (response.status === 200) {
+      if (response.ok) {
         // 成功
         alert('success')
       }
