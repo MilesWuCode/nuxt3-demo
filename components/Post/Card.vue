@@ -1,5 +1,5 @@
 <template>
-  <div class="card-compact card w-96 border border-base-300 bg-base-100">
+  <div class="card card-compact w-96 border border-base-300 bg-base-100">
     <figure>
       <NuxtImg
         src="/img/c1.jpg"

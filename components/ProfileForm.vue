@@ -41,6 +41,7 @@ const { handleSubmit, errors, setFieldError, setErrors } = useForm({
 
 // field
 const { value: name } = useField('name')
+const { $toast } = useNuxtApp()
 
 // submit
 const onSubmit = handleSubmit(async (values) => {
@@ -58,7 +59,7 @@ const onSubmit = handleSubmit(async (values) => {
 
       if (response.ok) {
         // 成功
-        alert('success')
+        $toast.success('Success')
       }
     },
     onResponseError({ request, response, options }) {
@@ -69,6 +70,8 @@ const onSubmit = handleSubmit(async (values) => {
         console.log(response._data)
 
         setErrors(response._data.errors)
+      } else {
+        $toast.error('Error')
       }
     },
   })
