@@ -23,13 +23,7 @@ const validationSchema = toTypedSchema(
   }),
 )
 
-const { data } = await useAuth()
-
-const { data: userData } = await useFetch('/laravel/api/me', {
-  headers: {
-    authorization: 'Bearer ' + (data.value?.user?.signInToken as string),
-  },
-})
+const { data: userData } = await useApiFetch('/api/me')
 
 // form
 const { handleSubmit, errors, setFieldError, setErrors } = useForm({
@@ -45,13 +39,10 @@ const { $toast } = useNuxtApp()
 
 // submit
 const onSubmit = handleSubmit(async (values) => {
-  await useFetch('/laravel/api/me', {
+  await useApiFetch('/api/me', {
     method: 'put',
     body: {
       name: values.name,
-    },
-    headers: {
-      authorization: 'Bearer ' + (data.value?.user?.signInToken as string),
     },
     onResponse({ request, response, options }) {
       // Process the response data

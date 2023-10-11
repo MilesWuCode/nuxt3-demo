@@ -49,7 +49,7 @@ const { value: confirmPassword } = useField('confirmPassword')
 const onSubmit = handleSubmit((values) => {
   // console.log(values)
 
-  useFetch('/laravel/api/auth/register', {
+  useApiFetch('/api/auth/register', {
     method: 'post',
     body: {
       name: values.name,
