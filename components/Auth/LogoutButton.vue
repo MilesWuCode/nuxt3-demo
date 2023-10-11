@@ -2,6 +2,10 @@
 const { signOut } = useAuth()
 
 const handelClick = async () => {
+  await useApiFetch('/api/auth/logout', {
+    method: 'POST',
+  })
+
   await signOut()
 }
 </script>
