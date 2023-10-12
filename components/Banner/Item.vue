@@ -11,6 +11,8 @@ defineProps<{
       :src="banner.cover"
       fit="cover"
       loading="lazy"
+      width="600"
+      height="300"
       :alt="banner.name"
     />
   </a>

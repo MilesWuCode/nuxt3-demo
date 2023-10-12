@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination } from 'swiper/modules'
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -15,7 +15,7 @@ export type Banner = {
   cover: string
 }
 
-const modules = [Navigation, Pagination]
+const modules = [Autoplay, Navigation, Pagination]
 
 const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
   query: {
@@ -28,7 +28,20 @@ const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
 </script>
 
 <template>
-  <Swiper :modules="modules" :navigation="true" :pagination="true">
+  <Swiper
+    :slides-per-view="2.5"
+    :autoplay="{
+      delay: 2500,
+      disableOnInteraction: false,
+    }"
+    :auto-height="true"
+    :space-between="0"
+    :modules="modules"
+    :navigation="true"
+    :pagination="{
+      clickable: true,
+    }"
+  >
     <SwiperSlide v-for="banner of banners" :key="banner.id">
       <BannerItem :banner="banner" />
     </SwiperSlide>
