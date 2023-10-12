@@ -4,7 +4,7 @@
     <input id="layout-default-drawer" type="checkbox" class="drawer-toggle" />
 
     <!-- 頁面內容 -->
-    <div class="drawer-content flex flex-col">
+    <div class="drawer-content flex flex-col overflow-x-auto">
       <slot />
     </div>
 
