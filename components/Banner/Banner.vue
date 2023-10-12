@@ -29,12 +29,12 @@ const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
 
 <template>
   <Swiper
-    :slides-per-view="2.5"
+    :slides-per-view="'auto'"
     :autoplay="{
       delay: 2500,
       disableOnInteraction: false,
     }"
-    :auto-height="true"
+    :auto-height="false"
     :space-between="0"
     :modules="modules"
     :navigation="true"
@@ -48,16 +48,18 @@ const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
   </Swiper>
 </template>
 
-<style scoped>
+<style lang="css" scoped>
 .swiper {
   width: 100%;
   height: 100%;
 }
 
 .swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
+  /*
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+  */
 
   /* Center slide text vertically */
   display: flex;
@@ -65,10 +67,9 @@ const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
   align-items: center;
 }
 
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+@media (min-width: 768px) {
+  .swiper-slide {
+    width: auto;
+  }
 }
 </style>

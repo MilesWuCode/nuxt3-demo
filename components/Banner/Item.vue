@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Banner } from './Banner.vue'
+
 defineProps<{
   banner: Banner
 }>()
@@ -7,13 +8,6 @@ defineProps<{
 
 <template>
   <a :href="banner.link">
-    <NuxtImg
-      :src="banner.cover"
-      fit="cover"
-      loading="lazy"
-      width="600"
-      height="300"
-      :alt="banner.name"
-    />
+    <img :src="banner.cover" :alt="banner.name" loading="lazy" />
   </a>
 </template>
