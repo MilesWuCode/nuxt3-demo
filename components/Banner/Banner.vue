@@ -1,17 +1,3 @@
-<template>
-  <Swiper :modules="modules" :navigation="true" :pagination="true">
-    <SwiperSlide>Slide 1</SwiperSlide>
-    <SwiperSlide>Slide 2</SwiperSlide>
-    <SwiperSlide>Slide 3</SwiperSlide>
-    <SwiperSlide>Slide 4</SwiperSlide>
-    <SwiperSlide>Slide 5</SwiperSlide>
-    <SwiperSlide>Slide 6</SwiperSlide>
-    <SwiperSlide>Slide 7</SwiperSlide>
-    <SwiperSlide>Slide 8</SwiperSlide>
-    <SwiperSlide>Slide 9</SwiperSlide>
-  </Swiper>
-</template>
-
 <script setup lang="ts">
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -22,8 +8,32 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
+export type Banner = {
+  id: string | number
+  name: string
+  link: string
+  cover: string
+}
+
 const modules = [Navigation, Pagination]
+
+const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
+  query: {
+    limit: 10,
+  },
+  transform: (data: any) => {
+    return data.data
+  },
+})
 </script>
+
+<template>
+  <Swiper :modules="modules" :navigation="true" :pagination="true">
+    <SwiperSlide v-for="banner of banners" :key="banner.id">
+      <BannerItem :banner="banner" />
+    </SwiperSlide>
+  </Swiper>
+</template>
 
 <style scoped>
 .swiper {
