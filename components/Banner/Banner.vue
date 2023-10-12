@@ -42,7 +42,11 @@ const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
       clickable: true,
     }"
   >
-    <SwiperSlide v-for="banner of banners" :key="banner.id">
+    <SwiperSlide
+      v-for="banner of banners"
+      :key="banner.id"
+      class="!w-full md:!w-auto"
+    >
       <BannerItem :banner="banner" />
     </SwiperSlide>
   </Swiper>
@@ -67,9 +71,9 @@ const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
   align-items: center;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .swiper-slide {
     width: auto;
   }
-}
+} */
 </style>
