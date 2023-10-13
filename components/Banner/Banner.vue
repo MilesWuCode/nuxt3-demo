@@ -17,7 +17,7 @@ export type Banner = {
 
 const modules = [Autoplay, Navigation, Pagination]
 
-const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
+const { pending, data: banners } = useApiFetch<Banner[]>('/api/banner', {
   query: {
     limit: 10,
   },
@@ -28,28 +28,34 @@ const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
 </script>
 
 <template>
-  <Swiper
-    :slides-per-view="'auto'"
-    :autoplay="{
-      delay: 2500,
-      disableOnInteraction: false,
-    }"
-    :auto-height="false"
-    :space-between="0"
-    :modules="modules"
-    :navigation="true"
-    :pagination="{
-      clickable: true,
-    }"
-  >
-    <SwiperSlide
-      v-for="banner of banners"
-      :key="banner.id"
-      class="!w-full md:!w-auto"
-    >
-      <BannerItem :banner="banner" />
-    </SwiperSlide>
-  </Swiper>
+  <div>
+    <div v-if="pending">Loading...</div>
+    <template v-else>
+      <Swiper
+        v-if="banners && banners.length > 0"
+        :slides-per-view="'auto'"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false,
+        }"
+        :auto-height="false"
+        :space-between="0"
+        :modules="modules"
+        :navigation="true"
+        :pagination="{
+          clickable: true,
+        }"
+      >
+        <SwiperSlide
+          v-for="banner of banners"
+          :key="banner.id"
+          class="!w-full md:!w-auto"
+        >
+          <BannerItem :banner="banner" />
+        </SwiperSlide>
+      </Swiper>
+    </template>
+  </div>
 </template>
 
 <style lang="css" scoped>
@@ -59,12 +65,6 @@ const { data: banners } = useApiFetch<Banner[]>('/api/banner', {
 }
 
 .swiper-slide {
-  /*
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-  */
-
   /* Center slide text vertically */
   display: flex;
   justify-content: center;

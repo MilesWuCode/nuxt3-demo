@@ -72,4 +72,9 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  // Hybrid Rendering
+  // routeRules: {
+  //   '/post': { ssr: false },
+  // },
 })
