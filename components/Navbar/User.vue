@@ -5,7 +5,7 @@ const isSignIn = computed(() => status.value === 'authenticated')
 </script>
 
 <template>
-  <div v-if="isSignIn" class="dropdown-end dropdown">
+  <div v-if="isSignIn" class="dropdown dropdown-end">
     <label tabindex="0" class="avatar btn btn-circle btn-ghost">
       <div class="w-8 rounded-full">
         <img
@@ -15,7 +15,7 @@ const isSignIn = computed(() => status.value === 'authenticated')
     </label>
     <ul
       tabindex="0"
-      class="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
+      class="menu dropdown-content rounded-box menu-sm z-10 mt-3 w-52 bg-base-100 p-2 shadow"
     >
       <li>
         <NuxtLink to="/profile" class="justify-between">Profile</NuxtLink>

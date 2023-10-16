@@ -13,6 +13,7 @@ definePageMeta({
 
 // const csrfToken = await getCsrfToken()
 
+// 重新取得session
 // const session = await getSession()
 
 // console.table(data.value)

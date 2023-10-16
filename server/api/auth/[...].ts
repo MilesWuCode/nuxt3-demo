@@ -34,12 +34,14 @@ export default NuxtAuthHandler({
       },
 
       async authorize(credentials: any) {
-        console.log('credentials', credentials)
+        console.log('1.authorize/credentials', credentials)
 
         // 取得token
-        const signInToken = await login(credentials)
+        const accessToken = await login(credentials)
 
-        return { signInToken }
+        console.log('2.authorize/accessToken', accessToken)
+
+        return { accessToken }
       },
     }),
 
@@ -63,41 +65,50 @@ export default NuxtAuthHandler({
 
       // 使用signIn()時,user,account才會有資料
       // 不然就返回之前取得的JWT
+      if (user && account) {
+        console.log('3.jwt/user,account', user, account)
+      }
 
       // api的token
-      let signInToken
+      let accessToken
 
       // credentials登入
       if (account && account.provider === 'credentials') {
-        signInToken = user ? (user as any).signInToken || '' : undefined
+        accessToken = user ? (user as any).accessToken || undefined : undefined
+
+        console.log('4.jwt/accessToken', accessToken)
       }
 
       // google登入
       if (account && account.provider === 'google' && account.access_token) {
-        signInToken = await socialiteSignIn(
+        accessToken = await socialiteSignIn(
           account.provider,
           account.access_token,
         )
       }
 
       // 若取得用戶的token
-      if (signInToken) {
+      if (accessToken) {
         // 取得用戶資料
-        const fetchUserData = await fetchUser(signInToken)
+        const fetchUserData = await fetchUser(accessToken)
 
         // 加到JWT
-        token.user = { ...fetchUserData, signInToken }
+        token.user = fetchUserData
+        token.accessToken = accessToken
       }
+
+      console.log('5.jwt/token', token)
 
       // 返回JWT
       return Promise.resolve(token)
     },
     // Callback whenever session is checked, see https://next-auth.js.org/configuration/callbacks#session-callback
     session: ({ session, token }) => {
-      // console.log('session', session, token)
-
       // jwt資料合併到session.user
-      ;(session as any).user = token.user
+      session.user = token.user
+      session.accessToken = token.accessToken as string
+
+      console.log('6.session/session,token', session, token)
 
       // 送出session
       return Promise.resolve(session)
