@@ -1,11 +1,10 @@
 <template>
   <div class="card card-compact w-96 border border-base-300 bg-base-100">
     <figure>
-      <NuxtImg
+      <img
         src="/img/c1.jpg"
         width="384"
         height="192"
-        fit="cover"
         loading="lazy"
         alt="post image"
       />
