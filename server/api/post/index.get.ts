@@ -10,9 +10,9 @@ export default defineEventHandler(async (event) => {
     return { status: 'unauthenticated!' }
   }
 
-  const posts = await prisma.post.findMany()
-
-  console.log(posts)
+  const posts = await prisma.user
+    .findUnique({ where: { id: session.user.id } })
+    .posts()
 
   return {
     posts,
