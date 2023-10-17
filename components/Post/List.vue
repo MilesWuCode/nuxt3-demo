@@ -1,6 +1,7 @@
 <template>
   <div class="space-y-4">
-    <div class="flex flex-wrap gap-4">
+    <div class="flex flex-wrap justify-center gap-4">
+      <PostCard />
       <PostCard />
       <PostCard />
       <PostCard />
