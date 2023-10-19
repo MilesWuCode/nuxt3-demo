@@ -102,7 +102,7 @@ const onClickPage = (page: number | string) => {
       :disabled="currentPage <= 1"
       @click="() => onClickPage(currentPage - 1)"
     >
-      <NuxtIcon name="ArrayLeft" />
+      <NuxtIcon name="left" />
     </button>
 
     <!-- 頁碼 -->
@@ -122,7 +122,7 @@ const onClickPage = (page: number | string) => {
       :disabled="currentPage >= totalPage"
       @click="() => onClickPage(currentPage + 1)"
     >
-      <NuxtIcon name="ArrayRight" />
+      <NuxtIcon name="right" />
     </button>
   </div>
 </template>
