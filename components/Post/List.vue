@@ -3,9 +3,11 @@ import type { Post } from '@/types/post'
 import type { Paginate } from '@/types/paginate'
 import { useApiFetch } from '@/composables/useApiFetch'
 
+const page = ref(1)
+
 const { pending, data: posts } = await useApiFetch<Paginate<Post[]>>(
   `/api/post`,
-  { query: { limit: 8 } },
+  { query: { limit: 8, page } },
 )
 </script>
 
@@ -18,13 +20,7 @@ const { pending, data: posts } = await useApiFetch<Paginate<Post[]>>(
     </div>
 
     <div v-if="posts?.meta.total" class="flex justify-center">
-      <div class="join">
-        <button class="btn join-item">1</button>
-        <button class="btn join-item">2</button>
-        <button class="btn btn-disabled join-item">...</button>
-        <button class="btn join-item">99</button>
-        <button class="btn join-item">100</button>
-      </div>
+      <Pagination v-model="page" :total-page="posts?.meta.last_page" />
     </div>
   </div>
 </template>
