@@ -29,7 +29,9 @@ const { pending, data: banners } = await useApiFetch<Banner[]>('/api/banner', {
 
 <template>
   <div>
-    <div v-if="pending">Loading...</div>
+    <div v-if="pending" class="flex h-24 justify-center">
+      <span class="loading loading-spinner loading-md self-center"></span>
+    </div>
 
     <template v-else>
       <Swiper

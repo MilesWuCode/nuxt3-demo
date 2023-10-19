@@ -5,7 +5,7 @@
 
     <!-- 區塊 -->
     <div class="space-y-6">
-      <!-- <Banner /> -->
+      <Banner />
 
       <PostList />
     </div>
