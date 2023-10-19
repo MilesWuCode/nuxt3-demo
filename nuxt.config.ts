@@ -76,4 +76,12 @@ export default defineNuxtConfig({
   // routeRules: {
   //   '/post': { ssr: false },
   // },
+
+  router: {
+    // https://router.vuejs.org/api/interfaces/RouterOptions.html
+    options: {
+      linkActiveClass: 'active',
+      linkExactActiveClass: 'active',
+    },
+  },
 })

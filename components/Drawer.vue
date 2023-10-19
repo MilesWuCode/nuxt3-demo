@@ -14,7 +14,7 @@
       <label for="layout-default-drawer" class="drawer-overlay"></label>
 
       <!-- 主目錄 -->
-      <MainMenu />
+      <Menu />
     </div>
   </div>
 </template>

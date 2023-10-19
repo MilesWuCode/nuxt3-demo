@@ -9,7 +9,7 @@
       class="flex min-h-[calc(100dvh-64px-132px-64px)] lg:min-h-[calc(100dvh-64px-68px)]"
     >
       <!-- 左側主目錄 -->
-      <MainMenu class="hidden lg:block" />
+      <Menu class="hidden lg:block" />
 
       <!-- 右側頁面內容 -->
       <div class="w-full">
