@@ -17,7 +17,7 @@ export type Banner = {
 
 const modules = [Autoplay, Navigation, Pagination]
 
-const { pending, data: banners } = useApiFetch<Banner[]>('/api/banner', {
+const { pending, data: banners } = await useApiFetch<Banner[]>('/api/banner', {
   query: {
     limit: 10,
   },
@@ -30,6 +30,7 @@ const { pending, data: banners } = useApiFetch<Banner[]>('/api/banner', {
 <template>
   <div>
     <div v-if="pending">Loading...</div>
+
     <template v-else>
       <Swiper
         v-if="banners && banners.length > 0"

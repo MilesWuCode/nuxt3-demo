@@ -46,10 +46,10 @@ const { value: password } = useField('password')
 const { value: confirmPassword } = useField('confirmPassword')
 
 // submit
-const onSubmit = handleSubmit((values) => {
+const onSubmit = handleSubmit(async (values) => {
   // console.log(values)
 
-  useApiFetch('/api/auth/register', {
+  await useApiFetch('/api/auth/register', {
     method: 'post',
     body: {
       name: values.name,
