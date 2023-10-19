@@ -80,8 +80,11 @@ export default defineNuxtConfig({
   router: {
     // https://router.vuejs.org/api/interfaces/RouterOptions.html
     options: {
-      linkActiveClass: 'active',
-      linkExactActiveClass: 'active',
+      linkActiveClass: 'active', // 模糊
+      // linkExactActiveClass: 'active', // 精準
     },
   },
+
+  // 全域CSS
+  css: ['@/assets/css/main.css'],
 })

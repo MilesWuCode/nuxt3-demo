@@ -3,8 +3,10 @@ import type { Post } from '@/types/post'
 import type { Paginate } from '@/types/paginate'
 import { useApiFetch } from '@/composables/useApiFetch'
 
-const { pending, data: posts } =
-  await useApiFetch<Paginate<Post[]>>(`/api/post`)
+const { pending, data: posts } = await useApiFetch<Paginate<Post[]>>(
+  `/api/post`,
+  { query: { limit: 8 } },
+)
 </script>
 
 <template>
