@@ -14,7 +14,8 @@ const { pending, data: posts } =
     <div v-else class="flex flex-wrap justify-center gap-4">
       <PostCard v-for="post of posts?.data" :key="post.id" :post="post" />
     </div>
-    <div class="flex justify-center">
+
+    <div v-if="posts?.meta.total" class="flex justify-center">
       <div class="join">
         <button class="btn join-item">1</button>
         <button class="btn join-item">2</button>

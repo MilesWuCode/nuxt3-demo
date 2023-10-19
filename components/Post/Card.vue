@@ -10,14 +10,14 @@ defineProps<{
   <NuxtLink :to="`/post/${post.id}`">
     <div class="card card-compact w-96 border border-base-300 bg-base-100">
       <img
-        src="/img/c1.jpg"
+        :src="post.cover"
         width="384"
         height="192"
         loading="lazy"
-        alt="post image"
+        :alt="post.title"
       />
       <div class="card-body">
-        <h2 class="card-title">Shoes!</h2>
+        <h2 class="card-title">{{ post.title }}</h2>
         <p>If a dog chews shoes whose shoes does he choose?</p>
       </div>
     </div>
