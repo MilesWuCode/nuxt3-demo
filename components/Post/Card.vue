@@ -1,6 +1,14 @@
+<script setup lang="ts">
+import type { Post } from '@/types/post'
+
+defineProps<{
+  post: Post
+}>()
+</script>
+
 <template>
-  <div class="card card-compact w-96 border border-base-300 bg-base-100">
-    <figure>
+  <NuxtLink :to="`/post/${post.id}`">
+    <div class="card card-compact w-96 border border-base-300 bg-base-100">
       <img
         src="/img/c1.jpg"
         width="384"
@@ -8,17 +16,10 @@
         loading="lazy"
         alt="post image"
       />
-    </figure>
-    <div class="card-body">
-      <h2 class="card-title">
-        Shoes!
-        <div class="badge badge-secondary">NEW</div>
-      </h2>
-      <p>If a dog chews shoes whose shoes does he choose?</p>
-      <div class="card-actions justify-end">
-        <div class="badge badge-outline">Fashion</div>
-        <div class="badge badge-outline">Products</div>
+      <div class="card-body">
+        <h2 class="card-title">Shoes!</h2>
+        <p>If a dog chews shoes whose shoes does he choose?</p>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>

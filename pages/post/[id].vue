@@ -1,8 +1,5 @@
 <script setup lang="ts">
-type Post = {
-  id: string | number
-  name: string
-}
+import type { Post } from '@/types/post'
 
 const route = useRoute()
 
