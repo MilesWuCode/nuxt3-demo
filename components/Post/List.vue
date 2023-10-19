@@ -3,17 +3,16 @@ import type { Post } from '@/types/post'
 import type { Paginate } from '@/types/paginate'
 import { useApiFetch } from '@/composables/useApiFetch'
 
-const { pending, data } = await useApiFetch<Paginate<Post[]>>(`/api/post`)
-console.log(data.value?.meta.current_page)
+const { pending, data: posts } =
+  await useApiFetch<Paginate<Post[]>>(`/api/post`)
 </script>
 
 <template>
-  {{ data }}
   <div class="space-y-4">
     <div v-if="pending">L....</div>
 
     <div v-else class="flex flex-wrap justify-center gap-4">
-      <!-- <PostCard :post="" /> -->
+      <PostCard v-for="post of posts?.data" :key="post.id" :post="post" />
     </div>
     <div class="flex justify-center">
       <div class="join">
