@@ -8,14 +8,15 @@ defineProps<{
 
 <template>
   <NuxtLink :to="`/post/${post.id}`">
-    <div class="card-compact card w-96 border border-base-300 bg-base-100">
+    <div class="card card-compact w-96 border border-base-300 bg-base-100">
       <figure>
-        <img
+        <NuxtImg
           :src="post.cover"
+          :alt="post.title"
           width="384"
           height="192"
           loading="lazy"
-          :alt="post.title"
+          placeholder="placeholder.jpg"
           class="h-[192px] w-[384px] object-cover"
         />
       </figure>
