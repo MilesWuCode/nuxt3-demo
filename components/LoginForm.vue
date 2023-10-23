@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { InvalidSubmissionContext, useField, useForm } from 'vee-validate'
+import { type InvalidSubmissionContext, useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { zodI18nMap } from 'zod-i18n-map'
 import * as i18next from 'i18next'
 import * as zod from 'zod'
 import ja from 'zod-i18n-map/locales/ja/zod.json'
 import zhHant from 'zod-i18n-map/locales/zh-TW/zod.json'
+import { useI18n } from '#imports'
 
 // 語系
 const { locale, t } = useI18n()
