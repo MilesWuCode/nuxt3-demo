@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { type LocaleObject } from '@nuxtjs/i18n/dist/runtime/composables'
 import { useI18n } from '#imports'
 
 const { locale, locales, setLocale } = useI18n()
 
 const availableLocales = computed(() => {
   // 全部
-  return locales.value as LocaleObject[]
+  return locales.value
 
   // 除了現在的語系
-  // return (locales.value as LocaleObject[]).filter(
+  // return (locales.value).filter(
   //   (i) => i.code !== locale.value,
   // )
 })

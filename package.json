@@ -9,10 +9,14 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "prisma:studio": "npx prisma studio",
-    "test": "vitest"
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui --coverage"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@vitest/coverage-v8": "^0.34.6",
+    "@vitest/ui": "^0.34.6",
     "nuxt": "^3.8.0",
     "vue": "^3.3.6",
     "vue-router": "^4.2.5"
@@ -38,8 +42,8 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "happy-dom": "^12.9.1",
     "i18next": "^23.4.4",
+    "jsdom": "^22.1.0",
     "next-auth": "~4.21.1",
     "notyf": "^3.10.0",
     "nuxt-icons": "^3.2.1",
