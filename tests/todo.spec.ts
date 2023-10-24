@@ -57,7 +57,7 @@ describe('todo組件', () => {
 
     expect(store.total).toBe(1)
 
-    /** 顯示 */
+    /** 顯示 active */
     const filterActive = wrapper.find('[data-test="filter-active"]')
 
     await filterActive.trigger('click')
@@ -84,6 +84,16 @@ describe('todo組件', () => {
     expect(checkboxElement.checked).toBe(true)
 
     expect(store.list.at(0)?.state).toBe('completed')
+
+    /** 顯示 active */
+    expect(wrapper.findAll('[data-test="todo-item"]').length).toBe(0)
+
+    /** 顯示 completed */
+    const filterCompleted = wrapper.find('[data-test="filter-completed"]')
+
+    await filterCompleted.trigger('click')
+
+    expect(wrapper.findAll('[data-test="todo-item"]').length).toBe(1)
 
     /** 刪除 */
     const deleteButton = await wrapper.find('[data-test="delete-button"]')
