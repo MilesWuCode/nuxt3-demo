@@ -103,8 +103,6 @@ describe('todo組件', () => {
     await deleteButton.trigger('click')
 
     expect(store.total).toBe(0)
-
-    console.log(store.list)
   })
 })
 
