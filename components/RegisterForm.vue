@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { InvalidSubmissionContext, useField, useForm } from 'vee-validate'
+import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { zodI18nMap } from 'zod-i18n-map'
 import * as i18next from 'i18next'
@@ -46,67 +46,63 @@ const { value: password } = useField('password')
 const { value: confirmPassword } = useField('confirmPassword')
 
 // submit
-const onSubmit = handleSubmit(async (values) => {
-  // console.log(values)
+const onSubmit = handleSubmit(
+  async (values) => {
+    // console.log(values)
 
-  await useApiFetch('/api/auth/register', {
-    method: 'post',
-    body: {
-      name: values.name,
-      email: values.email,
-      password: values.password,
-      comfirm_password: values.confirmPassword,
-    },
-    onRequest({ request, options }) {
-      // Set the request headers
-      console.log(request, options)
-    },
-    onRequestError({ request, options, error }) {
-      // Handle the request errors
-      console.log(request, options, error)
-    },
-    onResponse({ request, response, options }) {
-      // Process the response data
-      console.log(request, response, options)
+    await useApiFetch('/api/auth/register', {
+      method: 'post',
+      body: {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        comfirm_password: values.confirmPassword,
+      },
+      onRequest({ request, options }) {
+        // Set the request headers
+        console.log(request, options)
+      },
+      onRequestError({ request, options, error }) {
+        // Handle the request errors
+        console.log(request, options, error)
+      },
+      onResponse({ request, response, options }) {
+        // Process the response data
+        console.log(request, response, options)
 
-      if (response.status === 200) {
-        // 成功
-        router.push('/login')
-      }
-    },
-    onResponseError({ request, response, options }) {
-      // Handle the response errors
-      console.log(request, response, options)
+        if (response.status === 200) {
+          // 成功
+          router.push('/login')
+        }
+      },
+      onResponseError({ request, response, options }) {
+        // Handle the response errors
+        console.log(request, response, options)
 
-      if (response.status === 422) {
-        console.log(response._data)
+        if (response.status === 422) {
+          console.log(response._data)
 
-        setErrors(response._data.errors)
-      }
-    },
-  })
-}, onInvalidSubmit)
+          setErrors(response._data.errors)
+        }
+      },
+    })
+  },
+  ({ values, errors, results }) => {
+    // field-name
+    const name = Object.keys(errors)[0]
 
-// error
-function onInvalidSubmit({
-  values,
-  errors,
-  results,
-}: InvalidSubmissionContext) {
-  // field-name
-  const name = Object.keys(errors)[0]
+    // focus
+    document.getElementsByName(name)[0].focus()
 
-  // focus
-  document.getElementsByName(name)[0].focus()
-
-  console.log(values) // current form values
-  console.log(errors) // a map of field names and their first error message
-  console.log(results) // a detailed map of field names and their validation results
-}
+    console.log(values) // current form values
+    console.log(errors) // a map of field names and their first error message
+    console.log(results) // a detailed map of field names and their validation results
+  },
+)
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" @invalid-submit="onInvalidSubmit">
     <!-- 欄位 -->
     <div class="form-control">
       <label class="label">

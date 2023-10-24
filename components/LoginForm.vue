@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type InvalidSubmissionContext, useField, useForm } from 'vee-validate'
+import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { zodI18nMap } from 'zod-i18n-map'
 import * as i18next from 'i18next'
@@ -74,32 +74,31 @@ const url = new URL(
 )
 
 // submit
-const onSubmit = handleSubmit(async (values) => {
-  const signInResponse = await signIn('credentials', {
-    email: values.email,
-    password: values.password,
-    redirect: false,
-  })
+const onSubmit = handleSubmit(
+  async (values) => {
+    const signInResponse = await signIn('credentials', {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    })
 
-  // console.log('signInResponse', signInResponse)
+    // console.log('signInResponse', signInResponse)
 
-  // 若redirect為false時和定義signIn頁面不會重新刷新頁面到目的頁
-  // 可以使用回傳error判別
-  if (signInResponse?.error) {
-    // Do your custom error handling here
-    setFieldError('email', t('帳號或密碼錯誤'))
-  } else {
-    // No error, continue with the sign in, e.g., by following the returned redirect:
-    return navigateTo(url.pathname)
-  }
-}, onInvalidSubmit)
+    // 若redirect為false時和定義signIn頁面不會重新刷新頁面到目的頁
+    // 可以使用回傳error判別
+    if (signInResponse?.error) {
+      // Do your custom error handling here
+      setFieldError('email', t('帳號或密碼錯誤'))
+    } else {
+      // No error, continue with the sign in, e.g., by following the returned redirect:
+      return navigateTo(url.pathname)
+    }
+  },
+  () => onInvalidSubmit,
+)
 
 // error
-function onInvalidSubmit({
-  values,
-  errors,
-  results,
-}: InvalidSubmissionContext) {
+function onInvalidSubmit({ values, errors, results }) {
   // field-name
   const name = Object.keys(errors)[0]
 

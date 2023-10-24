@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type InvalidSubmissionContext, useField, useForm } from 'vee-validate'
+import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { zodI18nMap } from 'zod-i18n-map'
 import * as i18next from 'i18next'
@@ -67,26 +67,22 @@ const { value: newPassword } = useField('newPassword')
 const { value: confirmPassword } = useField('confirmPassword')
 
 // submit
-const onSubmit = handleSubmit((values) => {
-  console.log(values)
-}, onInvalidSubmit)
+const onSubmit = handleSubmit(
+  (values) => {
+    console.log(values)
+  },
+  ({ values, errors, results }) => {
+    // field-name
+    const name = Object.keys(errors)[0]
 
-// error
-function onInvalidSubmit({
-  values,
-  errors,
-  results,
-}: InvalidSubmissionContext) {
-  // field-name
-  const name = Object.keys(errors)[0]
+    // focus
+    document.getElementsByName(name)[0].focus()
 
-  // focus
-  document.getElementsByName(name)[0].focus()
-
-  console.log(values) // current form values
-  console.log(errors) // a map of field names and their first error message
-  console.log(results) // a detailed map of field names and their validation results
-}
+    console.log(values) // current form values
+    console.log(errors) // a map of field names and their first error message
+    console.log(results) // a detailed map of field names and their validation results
+  },
+)
 </script>
 
 <template>
