@@ -1,11 +1,6 @@
 import { defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
-
-export type Todo = {
-  id: string | number
-  content: string
-  state: 'active' | 'completed'
-}
+import type { Todo } from '@/types/todo'
 
 export type Filter = 'all' | 'active' | 'completed'
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { type Todo, useTodoStore } from '@/stores/todo'
+import { useTodoStore } from '@/stores/todo'
+import type { Todo } from '@/types/todo'
 
 const props = defineProps<{
   todo: Todo
@@ -13,6 +14,7 @@ const { list } = storeToRefs(store)
 
 const state = computed({
   get() {
+    // return props.todo.state
     return (
       // 若不用storeToRefs:store.list.find(...)
       list.value.find((item) => item.id === props.todo.id)?.state || 'active'
@@ -37,7 +39,7 @@ const onRemove = () => {
       false-value="active"
       type="checkbox"
       class="checkbox flex-none"
-      data-test="stateChangeButton"
+      data-test="state-checkbox"
     />
 
     <!-- content -->
@@ -52,7 +54,7 @@ const onRemove = () => {
     <!-- delete button -->
     <button
       class="btn btn-sm flex-none"
-      data-test="deleteButton"
+      data-test="delete-button"
       @click="onRemove"
     >
       Del
