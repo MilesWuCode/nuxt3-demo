@@ -12,7 +12,9 @@ definePageMeta({
     <!-- 區塊 -->
     <div class="flex justify-center">
       <div class="w-full max-w-sm">
-        <Todo />
+        <ClientOnly>
+          <Todo />
+        </ClientOnly>
       </div>
     </div>
   </div>

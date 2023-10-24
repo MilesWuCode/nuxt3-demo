@@ -42,12 +42,12 @@ const addTodo = () => {
         <input
           v-model.trim="input"
           type="text"
-          data-test="todoInput"
+          data-test="todo-input"
           class="input input-bordered w-full"
         />
         <button
           class="btn btn-square"
-          data-test="todoAddButton"
+          data-test="todo-add-button"
           @click="addTodo"
         >
           add
@@ -66,6 +66,7 @@ const addTodo = () => {
         :key="item"
         class="tab"
         :class="filter === item && 'tab-active'"
+        :data-test="`filter-${item}`"
         @click="() => (filter = item)"
       >
         {{ item }}
@@ -75,7 +76,7 @@ const addTodo = () => {
     <!-- list -->
     <ul class="space-y-2">
       <li v-for="item in store.filterByState(filter)" :key="item.id">
-        <Item :todo="item" data-test="todoItem" />
+        <Item :todo="item" data-test="todo-item" />
       </li>
     </ul>
   </div>

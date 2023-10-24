@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
+// import { storeToRefs } from 'pinia'
 import { useTodoStore } from '@/stores/todo'
 import type { Todo } from '@/types/todo'
 
@@ -10,15 +10,15 @@ const props = defineProps<{
 const store = useTodoStore()
 
 // 可用storeToRefs
-const { list } = storeToRefs(store)
+// const { list } = storeToRefs(store)
 
 const state = computed({
   get() {
-    // return props.todo.state
-    return (
-      // 若不用storeToRefs:store.list.find(...)
-      list.value.find((item) => item.id === props.todo.id)?.state || 'active'
-    )
+    return props.todo.state
+    // return (
+    //   // 若不用storeToRefs:store.list.find(...)
+    //   list.value.find((item) => item.id === props.todo.id)?.state || 'active'
+    // )
   },
   set(newVal) {
     store.changeState(props.todo.id, newVal)
@@ -53,7 +53,7 @@ const onRemove = () => {
 
     <!-- delete button -->
     <button
-      class="btn btn-sm flex-none"
+      class="ccc btn btn-sm flex-none"
       data-test="delete-button"
       @click="onRemove"
     >
