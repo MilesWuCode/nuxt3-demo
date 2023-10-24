@@ -191,7 +191,7 @@ describe('todo組件的item子組件', () => {
     setActivePinia(createPinia())
   })
 
-  it('mount', async () => {
+  it('掛載', async () => {
     // 假資料
     const todo: TodoType = {
       id: 'test-id',
