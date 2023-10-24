@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Banner } from './Banner.vue'
+import type { Banner } from '@/types/banner'
 
 defineProps<{
   banner: Banner

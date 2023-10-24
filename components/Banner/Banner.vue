@@ -8,12 +8,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-export type Banner = {
-  id: string | number
-  name: string
-  link: string
-  cover: string
-}
+import type { Banner } from '@/types/banner'
 
 const modules = [Autoplay, Navigation, Pagination]
 
