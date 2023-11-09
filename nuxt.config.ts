@@ -22,6 +22,8 @@ export default defineNuxtConfig({
   },
 
   auth: {
+    baseURL: process.env.AUTH_ORIGIN,
+
     // globalAppMiddleware: true, // 全域中間件檢查登入
 
     provider: {
