@@ -1,13 +1,13 @@
 import type { UseFetchOptions } from 'nuxt/app'
 
 export function useApiFetch<T>(path: string, options: UseFetchOptions<T> = {}) {
-  const { data: authData } = useAuth()
+  const { data } = useAuth()
 
   let headers: any = {}
 
-  if (authData.value?.accessToken) {
+  if (data.value?.user.accessToken) {
     headers = {
-      Authorization: ('Bearer ' + authData.value?.accessToken) as string,
+      Authorization: 'Bearer ' + data.value?.user.accessToken,
     }
   }
 
