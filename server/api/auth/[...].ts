@@ -5,6 +5,11 @@ import { NuxtAuthHandler } from '#auth'
 
 // 因為是server執行,使用env參數不用設定在runtimeConfig
 
+type Credential = {
+  email: string
+  password: string
+}
+
 export default NuxtAuthHandler({
   // cookie加密使用
   secret: process.env.AUTH_SECRET,
@@ -33,15 +38,19 @@ export default NuxtAuthHandler({
         password: { label: 'Password', type: 'password' },
       },
 
-      async authorize(credentials: any) {
-        console.log('1.authorize/credentials', credentials)
+      async authorize(credentials: Credential) {
+        try {
+          // 取得token
+          const accessToken = await login(credentials)
 
-        // 取得token
-        const accessToken = await login(credentials)
+          const userData = await fetchUser(accessToken)
 
-        console.log('2.authorize/accessToken', accessToken)
+          const user = { ...userData, accessToken }
 
-        return { accessToken }
+          return user
+        } catch (error) {
+          return null
+        }
       },
     }),
 
@@ -61,43 +70,30 @@ export default NuxtAuthHandler({
   callbacks: {
     // Callback when the JWT is created / updated, see https://next-auth.js.org/configuration/callbacks#jwt-callback
     jwt: async ({ token, user, account }) => {
-      // console.log('jwt', token, user, account)
-
       // 使用signIn()時,user,account才會有資料
       // 不然就返回之前取得的JWT
-      if (user && account) {
-        console.log('3.jwt/user,account', user, account)
-      }
-
-      // api的token
-      let accessToken
 
       // credentials登入
-      if (account && account.provider === 'credentials') {
-        accessToken = user ? (user as any).accessToken || undefined : undefined
-
-        console.log('4.jwt/accessToken', accessToken)
+      if (user && account && account.provider === 'credentials') {
+        token.user = {
+          ...user,
+        }
       }
 
       // google登入
       if (account && account.provider === 'google' && account.access_token) {
-        accessToken = await socialiteSignIn(
+        // 若取得用戶的token
+        const accessToken = await socialiteSignIn(
           account.provider,
           account.access_token,
         )
-      }
 
-      // 若取得用戶的token
-      if (accessToken) {
         // 取得用戶資料
-        const fetchUserData = await fetchUser(accessToken)
+        const userData = await fetchUser(accessToken)
 
         // 加到JWT
-        token.user = fetchUserData
-        token.accessToken = accessToken
+        token.user = { ...userData, accessToken }
       }
-
-      console.log('5.jwt/token', token)
 
       // 返回JWT
       return Promise.resolve(token)
@@ -105,10 +101,7 @@ export default NuxtAuthHandler({
     // Callback whenever session is checked, see https://next-auth.js.org/configuration/callbacks#session-callback
     session: ({ session, token }) => {
       // jwt資料合併到session.user
-      session.user = token.user
-      session.accessToken = token.accessToken as string
-
-      console.log('6.session/session,token', session, token)
+      ;(session as any).user = token.user
 
       // 送出session
       return Promise.resolve(session)
@@ -116,32 +109,44 @@ export default NuxtAuthHandler({
   },
 })
 
-async function socialiteSignIn(provider: string, providerToken: string) {
-  try {
-    const { token }: { token: string } = await $fetch(
-      `${process.env.API_ENDPOINT}/api/socialite/signin`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          provider,
-          token: providerToken,
-        }),
-      },
-    )
+type SocialiteSignInResponse = {
+  token: string
+}
 
-    return token
-  } catch (error) {
-    console.log(error)
+async function socialiteSignIn(provider: string, providerToken: string) {
+  const { token } = await $fetch<SocialiteSignInResponse>(
+    `${process.env.API_ENDPOINT}/api/socialite/signin`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        provider,
+        token: providerToken,
+      }),
+    },
+  )
+
+  return token
+}
+
+type MeResponse = {
+  data: {
+    id: number | string
+    name: string
+    email: string
+    avatar: string
+    email_verified_at: Date | null
+    provider: string | null
+    provider_id: string | null
   }
 }
 
-async function fetchUser(token: string) {
-  const { data }: { data: any } = await $fetch(
+async function fetchUser(accessToken: string) {
+  const { data } = await $fetch<MeResponse>(
     `${process.env.API_ENDPOINT}/api/me`,
     {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: 'Bearer ' + accessToken,
       },
     },
   )
@@ -149,8 +154,12 @@ async function fetchUser(token: string) {
   return data
 }
 
-async function login(credentials: any) {
-  const { token }: { token: string } = await $fetch(
+type LoginResponse = {
+  token: string
+}
+
+async function login(credentials: Credential) {
+  const { token } = await $fetch<LoginResponse>(
     `${process.env.API_ENDPOINT}/api/auth/login`,
     {
       method: 'POST',

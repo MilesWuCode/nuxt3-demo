@@ -12,11 +12,11 @@ declare module 'next-auth' {
       email: string
       avatar: string
       avatar_thumb: string
-      email_verified_at: string
-      provider: string
-      provider_id: string
+      email_verified_at: string | null
+      provider: string | null
+      provider_id: string | null
+      accessToken: string
     } & DefaultSession['user']
-    accessToken: string
   }
 
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
