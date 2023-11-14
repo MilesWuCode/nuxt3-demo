@@ -133,7 +133,7 @@ type MeResponse = {
     id: number | string
     name: string
     email: string
-    avatar: string
+    avatar_url: string
     email_verified_at: Date | null
     provider: string | null
     provider_id: string | null

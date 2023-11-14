@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { status } = useAuth()
+const { status, data } = useAuth()
 
 const isSignIn = computed(() => status.value === 'authenticated')
 </script>
@@ -8,14 +8,12 @@ const isSignIn = computed(() => status.value === 'authenticated')
   <div v-if="isSignIn" class="dropdown dropdown-end">
     <label tabindex="0" class="avatar btn btn-circle btn-ghost">
       <div class="w-8 rounded-full">
-        <img
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII="
-        />
+        <NuxtImg :src="data?.user.avatar_url" placeholder="placeholder.jpg" />
       </div>
     </label>
     <ul
       tabindex="0"
-      class="menu dropdown-content rounded-box menu-sm z-10 mt-3 w-52 bg-base-100 p-2 shadow"
+      class="menu dropdown-content menu-sm z-10 mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
     >
       <li>
         <NuxtLink to="/profile" class="justify-between">Profile</NuxtLink>

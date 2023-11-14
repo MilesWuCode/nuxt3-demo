@@ -10,7 +10,7 @@ declare module 'next-auth' {
       id: string | number
       name: string
       email: string
-      avatar: string | null
+      avatar_url: string
       email_verified_at: Date | null
       provider: string | null
       provider_id: string | null
