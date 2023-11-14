@@ -32,16 +32,16 @@ const currentTab = ref<'ProfileForm' | 'PasswordForm'>('ProfileForm')
     <div class="flex justify-center">
       <div class="w-full max-w-sm">
         <!-- 分頁 -->
-        <div class="tabs my-2">
+        <div class="tabs tabs-bordered my-2">
           <a
-            class="tab tab-lifted"
+            class="tab"
             :class="currentTab === 'ProfileForm' && 'tab-active'"
             @click="currentTab = 'ProfileForm'"
           >
             Detail
           </a>
           <a
-            class="tab tab-lifted"
+            class="tab"
             :class="currentTab === 'PasswordForm' && 'tab-active'"
             @click="currentTab = 'PasswordForm'"
           >

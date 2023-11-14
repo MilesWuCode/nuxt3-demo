@@ -98,7 +98,7 @@ const onClickPage = (page: number | string) => {
   <div class="join">
     <!-- 上一頁 -->
     <button
-      class="btn join-item"
+      class="btn join-item btn-sm"
       :disabled="currentPage <= 1"
       @click="() => onClickPage(currentPage - 1)"
     >
@@ -109,7 +109,7 @@ const onClickPage = (page: number | string) => {
     <button
       v-for="(page, index) in displayedPages"
       :key="index"
-      class="btn join-item"
+      class="btn join-item btn-sm"
       :class="page === modelValue && 'btn-active'"
       @click="() => onClickPage(page)"
     >
@@ -118,7 +118,7 @@ const onClickPage = (page: number | string) => {
 
     <!-- 下一頁 -->
     <button
-      class="btn join-item"
+      class="btn join-item btn-sm"
       :disabled="currentPage >= totalPage"
       @click="() => onClickPage(currentPage + 1)"
     >

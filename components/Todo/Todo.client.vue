@@ -38,15 +38,15 @@ const addTodo = () => {
   <div class="flex flex-col space-y-2">
     <!-- input -->
     <div class="form-control">
-      <div class="input-group">
+      <div class="join">
         <input
           v-model.trim="input"
           type="text"
           data-test="todo-input"
-          class="input input-bordered w-full"
+          class="input join-item input-bordered w-full"
         />
         <button
-          class="btn btn-square"
+          class="btn btn-square join-item"
           data-test="todo-add-button"
           @click="addTodo"
         >
