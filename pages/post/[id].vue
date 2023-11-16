@@ -15,15 +15,20 @@ const { pending, data: post } = await useApiFetch<Post>(
 
 <template>
   <div>
-    <!-- 標題 -->
-    <h1 class="flex justify-center text-2xl">Post {{ $route.params.id }}</h1>
-
-    <div v-if="pending" class="flex h-24 justify-center">
-      <span class="loading loading-spinner loading-md self-center"></span>
+    <!-- hero -->
+    <div
+      class="hero h-80"
+      :style="`background-image: url(${post?.cover_url});`"
+    >
+      <div class="hero-overlay bg-opacity-60"></div>
+      <div class="hero-content text-center text-neutral-content">
+        <div class="max-w-md">
+          <h1 class="mb-5 text-5xl font-bold">{{ post?.title }}</h1>
+        </div>
+      </div>
     </div>
 
-    <template v-else>
-      {{ post }}
-    </template>
+    <!-- content -->
+    <div v-html="post?.content"></div>
   </div>
 </template>
