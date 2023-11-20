@@ -28,6 +28,8 @@ const { pending, data: post } = await useApiFetch<Post>(
       </div>
     </div>
 
+    <FavoriteButton />
+
     <!-- content -->
     <div v-html="post?.content"></div>
   </div>

@@ -25,11 +25,11 @@ definePageMeta({
         <!-- 其他登入 -->
         <div class="space-y-2">
           <AuthSignInButton class="btn w-full" provider="google">
-            <NuxtIcon name="google" />
+            <Icon name="IconGoogle" />
             Google
           </AuthSignInButton>
           <button class="btn w-full">
-            <NuxtIcon name="apple" />
+            <Icon name="IconApple" />
             Apple
           </button>
           <AuthSignInButton class="btn w-full" provider="line">

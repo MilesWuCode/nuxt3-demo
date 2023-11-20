@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@sidebase/nuxt-auth',
     '@vueuse/nuxt',
-    'nuxt-icons',
+    'nuxt-icon',
   ],
 
   runtimeConfig: {

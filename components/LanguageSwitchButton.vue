@@ -18,11 +18,11 @@ const availableLocales = computed(() => {
 <template>
   <div class="dropdown dropdown-end">
     <label tabindex="0" class="btn btn-circle btn-ghost">
-      <NuxtIcon name="languages" />
+      <Icon name="IconLanguage" />
     </label>
     <ul
       tabindex="0"
-      class="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
+      class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
     >
       <li v-for="item of availableLocales" :key="item.code">
         <button
