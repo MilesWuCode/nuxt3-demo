@@ -11,7 +11,7 @@ type Credential = {
 
 export default NuxtAuthHandler({
   // cookie加密使用
-  secret: runtimeConfig.auth.AUTH_SECRET,
+  secret: runtimeConfig.auth.secret,
 
   // 定義頁面
   pages: {
