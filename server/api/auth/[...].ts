@@ -1,9 +1,8 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
-import LineProvider from 'next-auth/providers/line'
 import { NuxtAuthHandler } from '#auth'
 
-// 因為是server執行,使用env參數不用設定在runtimeConfig
+const runtimeConfig = useRuntimeConfig()
 
 type Credential = {
   email: string
@@ -12,7 +11,7 @@ type Credential = {
 
 export default NuxtAuthHandler({
   // cookie加密使用
-  secret: process.env.AUTH_SECRET,
+  secret: runtimeConfig.auth.AUTH_SECRET,
 
   // 定義頁面
   pages: {
@@ -56,14 +55,8 @@ export default NuxtAuthHandler({
 
     // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
     GoogleProvider.default({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-
-    // @ts-expect-error
-    LineProvider.default({
-      clientId: process.env.LINE_CLIENT_ID,
-      clientSecret: process.env.LINE_CLIENT_SECRET,
+      clientId: runtimeConfig.google.clientId,
+      clientSecret: runtimeConfig.google.clientSecret,
     }),
   ],
 

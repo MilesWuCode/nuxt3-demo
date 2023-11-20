@@ -13,7 +13,6 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
-    apiSecret: '', // can be overridden by NUXT_API_SECRET environment variable
     public: {
       apiBase: '', // can be overridden by NUXT_PUBLIC_API_BASE environment variable
       appName: process.env.APP_NAME,
@@ -24,6 +23,13 @@ export default defineNuxtConfig({
         appPort: process.env.PUSHER_PORT,
         appCluster: process.env.PUSHER_APP_CLUSTER,
       },
+    },
+    auth: {
+      secret: process.env.AUTH_SECRET, // You can generate one with `openssl rand -base64 32`
+    },
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
   },
 

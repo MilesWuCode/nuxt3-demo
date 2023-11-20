@@ -11,18 +11,18 @@ declare global {
 export default defineNuxtPlugin((nuxtApp) => {
   console.log('init echo', nuxtApp)
 
-  const config = useRuntimeConfig()
+  const runtimeConfig = useRuntimeConfig()
 
   // @ts-ignore
   window.Pusher = Pusher
 
   window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: config.public.pusher.appKey,
-    cluster: config.public.pusher.appCluster,
+    key: runtimeConfig.public.pusher.appKey,
+    cluster: runtimeConfig.public.pusher.appCluster,
     forceTLS: false,
-    wsHost: config.public.pusher.appHost,
-    wsPort: config.public.pusher.appPort,
+    wsHost: runtimeConfig.public.pusher.appHost,
+    wsPort: runtimeConfig.public.pusher.appPort,
 
     // 身份驗證位置
     // authEndpoint: import.meta.env.VITE_API_URL + '/broadcasting/auth',

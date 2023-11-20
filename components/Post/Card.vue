@@ -11,7 +11,7 @@ defineProps<{
     <div class="card card-compact w-96 border border-base-300 bg-base-100">
       <figure>
         <NuxtImg
-          :src="post.cover"
+          :src="post.cover_url"
           :alt="post.title"
           width="384"
           height="192"
