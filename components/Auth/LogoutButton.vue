@@ -1,7 +1,9 @@
 <script setup lang="ts">
-const { signOut } = useAuth()
+const { signOut, data } = useAuth()
 
 const handelClick = async () => {
+  window.Echo.leave(`App.Models.User.${data.value?.user.id}`)
+
   await useApiFetch('/api/auth/logout', {
     method: 'POST',
   })
