@@ -28,9 +28,14 @@ const { pending, data: post } = await useApiFetch<Post>(
       </div>
     </div>
 
-    <FavoriteButton />
+    <FavoriteButton
+      :id="post?.id"
+      :is-favorite="post?.reaction?.favorite_state"
+    />
 
     <!-- content -->
     <div v-html="post?.content"></div>
+
+    {{ post?.reaction }}
   </div>
 </template>
