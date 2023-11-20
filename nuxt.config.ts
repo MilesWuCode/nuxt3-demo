@@ -18,6 +18,12 @@ export default defineNuxtConfig({
       apiBase: '', // can be overridden by NUXT_PUBLIC_API_BASE environment variable
       appName: process.env.APP_NAME,
       appUrl: process.env.APP_URL,
+      pusher: {
+        appKey: process.env.PUSHER_APP_KEY,
+        appHost: process.env.PUSHER_HOST,
+        appPort: process.env.PUSHER_PORT,
+        appCluster: process.env.PUSHER_APP_CLUSTER,
+      },
     },
   },
 
