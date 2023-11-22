@@ -56,7 +56,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
           const { data } = useAuth()
 
-          $fetch<{ data: ChannelAuthorizationData }>(
+          $fetch<ChannelAuthorizationData>(
             'http://localhost/broadcasting/auth',
             {
               method: 'POST',
@@ -71,9 +71,12 @@ export default defineNuxtPlugin((nuxtApp) => {
           )
             .then((response) => {
               console.log(response)
-              callback(null, response.data)
+
+              callback(null, response)
             })
             .catch((error) => {
+              console.log(error)
+
               callback(error, null)
             })
         },
