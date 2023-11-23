@@ -1,4 +1,5 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
+import FacebookProvider from 'next-auth/providers/facebook'
 import GoogleProvider from 'next-auth/providers/google'
 import { NuxtAuthHandler } from '#auth'
 
@@ -57,6 +58,12 @@ export default NuxtAuthHandler({
     GoogleProvider.default({
       clientId: runtimeConfig.google.clientId,
       clientSecret: runtimeConfig.google.clientSecret,
+    }),
+
+    // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+    FacebookProvider.default({
+      clientId: runtimeConfig.facebook.clientId,
+      clientSecret: runtimeConfig.facebook.clientSecret,
     }),
   ],
 

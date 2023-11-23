@@ -32,8 +32,8 @@ definePageMeta({
             <Icon name="IconApple" />
             Apple
           </button>
-          <AuthSignInButton class="btn w-full" provider="line">
-            Line
+          <AuthSignInButton class="btn w-full" provider="facebook">
+            Facebook
           </AuthSignInButton>
         </div>
       </div>

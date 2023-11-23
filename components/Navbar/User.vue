@@ -14,6 +14,10 @@ onMounted(() => {
 })
 
 function echoConnect() {
+  if (!data.value?.user) {
+    return
+  }
+
   window.Echo.private(`App.Models.User.${data.value?.user.id}`)
     // .listen('.PostUpdated', (e: any) => {
     //   console.log(e.model)
@@ -43,7 +47,10 @@ function echoConnect() {
   <div v-if="status === 'authenticated'" class="dropdown dropdown-end">
     <label tabindex="0" class="avatar btn btn-circle btn-ghost">
       <div class="w-8 rounded-full">
-        <NuxtImg :src="data?.user.avatar_url" placeholder="/placeholder.jpg" />
+        <NuxtImg
+          :src="data?.user?.avatar_url || '/'"
+          placeholder="/placeholder.jpg"
+        />
       </div>
     </label>
     <ul

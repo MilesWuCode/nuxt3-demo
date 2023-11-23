@@ -5,9 +5,9 @@ export function useApiFetch<T>(path: string, options: UseFetchOptions<T> = {}) {
 
   let headers: any = {}
 
-  if (data.value?.user.accessToken) {
+  if (data.value?.user?.accessToken) {
     headers = {
-      Authorization: 'Bearer ' + data.value?.user.accessToken,
+      Authorization: 'Bearer ' + data.value.user.accessToken,
     }
   }
 
