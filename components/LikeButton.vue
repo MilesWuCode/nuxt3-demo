@@ -14,13 +14,51 @@ const id = props.id
 
 const loading = ref(false)
 
-console.log(props.reaction)
+const originReaction = reactive<Reaction>({
+  like_count: props.reaction?.like_count || 0,
+  dislike_count: props.reaction?.dislike_count || 0,
+  like_state: props.reaction?.like_state || '',
+  favorite_state: props.reaction?.favorite_state || false,
+})
 
 const reaction = reactive<Reaction>({
   like_count: props.reaction?.like_count || 0,
   dislike_count: props.reaction?.dislike_count || 0,
   like_state: props.reaction?.like_state || '',
   favorite_state: props.reaction?.favorite_state || false,
+})
+
+const likeCount = computed(() => {
+  let count = 0
+
+  if (originReaction.like_state === 'Like' && reaction.like_state !== 'Like') {
+    count = -1
+  } else if (
+    originReaction.like_state !== 'Like' &&
+    reaction.like_state === 'Like'
+  ) {
+    count = +1
+  }
+
+  return reaction.like_count + count
+})
+
+const dislikeCount = computed(() => {
+  let count = 0
+
+  if (
+    originReaction.like_state === 'Dislike' &&
+    reaction.like_state !== 'Dislike'
+  ) {
+    count = -1
+  } else if (
+    originReaction.like_state !== 'Dislike' &&
+    reaction.like_state === 'Dislike'
+  ) {
+    count = +1
+  }
+
+  return reaction.dislike_count + count
 })
 
 function onLike() {
@@ -48,8 +86,6 @@ function sendLikeState(likeState: string) {
 
     return
   }
-
-  console.log(likeState)
 
   loading.value = true
 
@@ -82,7 +118,7 @@ function sendLikeState(likeState: string) {
       @click="onLike"
     >
       <Icon name="icon-park-outline:thumbs-up" class="h-4 w-4" />
-      <div class="badge">{{ reaction.like_count }}</div>
+      <div class="badge">{{ likeCount }}</div>
     </button>
 
     <button
@@ -92,6 +128,7 @@ function sendLikeState(likeState: string) {
       @click="onDislike"
     >
       <Icon name="icon-park-outline:thumbs-down" class="h-4 w-4" />
+      <div class="badge">{{ dislikeCount }}</div>
     </button>
   </div>
 </template>
