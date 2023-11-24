@@ -7,14 +7,18 @@ const { status } = useAuth()
 
 const loading = ref(false)
 
-const { id, isFavorite: favorite } = defineProps<{
+const { id, isFavorite: favorite = false } = defineProps<{
   id: Post['id']
-  isFavorite: Boolean
+  isFavorite: boolean | undefined
 }>()
 
 const isFavorite = ref(favorite)
 
 const onClick = () => {
+  if (loading.value) {
+    return
+  }
+
   loading.value = true
 
   const isToggle = !isFavorite.value
@@ -46,7 +50,7 @@ const authAlert = () => {
   <template v-if="status === 'authenticated'">
     <span v-if="loading" class="loading loading-spinner loading-sm"></span>
 
-    <button v-else @click="onClick">
+    <button v-else class="btn" @click="onClick">
       <Icon v-if="isFavorite" name="IconHeartSolid" />
       <Icon v-else name="IconHeartOutline" />
     </button>

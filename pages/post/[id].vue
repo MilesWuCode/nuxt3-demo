@@ -3,18 +3,15 @@ import type { Post } from '@/types/post'
 
 const route = useRoute()
 
-const { pending, data: post } = await useApiFetch<Post>(
-  `/api/post/${route.params.id}`,
-  {
-    transform: (data: any) => {
-      return data.data
-    },
+const { data: post } = await useApiFetch<Post>(`/api/post/${route.params.id}`, {
+  transform: (data: any): Post => {
+    return data.data
   },
-)
+})
 </script>
 
 <template>
-  <div>
+  <div v-if="post">
     <!-- hero -->
     <div
       class="hero h-80"
@@ -32,6 +29,8 @@ const { pending, data: post } = await useApiFetch<Post>(
       :id="post?.id"
       :is-favorite="post?.reaction?.favorite_state"
     />
+
+    <LikeButton :id="post?.id" />
 
     <!-- content -->
     <div v-html="post?.content"></div>
