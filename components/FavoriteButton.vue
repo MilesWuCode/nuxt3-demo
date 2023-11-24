@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Post } from '@/types/post'
+
 const { $toast } = useNuxtApp()
+
 const { status } = useAuth()
 
 const loading = ref(false)
@@ -12,18 +14,27 @@ const { id, isFavorite: favorite } = defineProps<{
 
 const isFavorite = ref(favorite)
 
-const onChange = () => {
+const onClick = () => {
   loading.value = true
 
-  useApiFetch(`/api/favorite/${isFavorite.value ? 'add' : 'del'}`, {
+  const isToggle = !isFavorite.value
+
+  useApiFetch(`/api/favorite/${isToggle ? 'add' : 'del'}`, {
     method: 'POST',
     body: {
       id,
       model: 'post',
     },
-  }).finally(() => {
-    loading.value = false
   })
+    .then(() => {
+      isFavorite.value = isToggle
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally(() => {
+      loading.value = false
+    })
 }
 
 const authAlert = () => {
@@ -35,11 +46,10 @@ const authAlert = () => {
   <template v-if="status === 'authenticated'">
     <span v-if="loading" class="loading loading-spinner loading-sm"></span>
 
-    <label v-else class="swap">
-      <input v-model="isFavorite" type="checkbox" @change="onChange" />
-      <div class="swap-off"><Icon name="IconHeartOutline" /></div>
-      <div class="swap-on"><Icon name="IconHeartSolid" /></div>
-    </label>
+    <button v-else @click="onClick">
+      <Icon v-if="isFavorite" name="IconHeartSolid" />
+      <Icon v-else name="IconHeartOutline" />
+    </button>
   </template>
 
   <label v-else>
