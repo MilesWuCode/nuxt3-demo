@@ -97,7 +97,6 @@ function sendLikeState(likeState: string) {
     },
   })
     .then(() => {
-      console.log(likeStateMap.get(likeState) || '')
       reaction.like_state = likeStateMap.get(likeState) || ''
     })
     .catch((err) => {
