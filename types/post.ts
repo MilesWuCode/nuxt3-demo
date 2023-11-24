@@ -1,7 +1,7 @@
 export type Reaction = {
   like_count: number
   dislike_count: number
-  like_state: string
+  like_state: '' | 'Like' | 'Dislike'
   favorite_state: boolean
 }
 

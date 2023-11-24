@@ -25,16 +25,15 @@ const { data: post } = await useApiFetch<Post>(`/api/post/${route.params.id}`, {
       </div>
     </div>
 
-    <FavoriteButton
-      :id="post?.id"
-      :is-favorite="post?.reaction?.favorite_state"
-    />
+    <div class="space-x-2">
+      <FavoriteButton
+        :id="post?.id"
+        :is-favorite="post?.reaction?.favorite_state"
+      />
 
-    <LikeButton :id="post?.id" />
-
+      <LikeButton :id="post?.id" :reaction="post.reaction" />
+    </div>
     <!-- content -->
     <div v-html="post?.content"></div>
-
-    {{ post?.reaction }}
   </div>
 </template>
