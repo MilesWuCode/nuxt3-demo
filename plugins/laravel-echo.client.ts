@@ -70,7 +70,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             },
           )
             .then((response) => {
-              console.log(response)
+              // console.log(response)
 
               callback(null, response)
             })

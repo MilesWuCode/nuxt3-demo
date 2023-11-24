@@ -19,6 +19,12 @@ const onClick = () => {
     return
   }
 
+  if (status.value !== 'authenticated') {
+    $toast.error('需要登入')
+
+    return
+  }
+
   loading.value = true
 
   const isToggle = !isFavorite.value
@@ -47,16 +53,19 @@ const authAlert = () => {
 </script>
 
 <template>
-  <template v-if="status === 'authenticated'">
+  <button
+    v-if="status === 'authenticated'"
+    class="btn"
+    :disabled="loading"
+    @click="onClick"
+  >
     <span v-if="loading" class="loading loading-spinner loading-sm"></span>
-
-    <button v-else class="btn" @click="onClick">
-      <Icon v-if="isFavorite" name="IconHeartSolid" />
-      <Icon v-else name="IconHeartOutline" />
-    </button>
-  </template>
-
-  <label v-else>
-    <Icon name="IconHeartOutline" class="cursor-pointer" @click="authAlert" />
-  </label>
+    <template v-else>
+      <Icon v-if="isFavorite" name="IconHeartSolid" class="h-4 w-4" />
+      <Icon v-else name="IconHeartOutline" class="h-4 w-4" />
+    </template>
+  </button>
+  <button v-else @click="authAlert">
+    <Icon name="IconHeartOutline" class="h-4 w-4" />
+  </button>
 </template>
