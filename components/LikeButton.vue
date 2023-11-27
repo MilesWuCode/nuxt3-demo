@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Post, Reaction } from '@/types/post'
+import { formatCompactNumber } from '@/libs/formater'
 
 const { $toast } = useNuxtApp()
 
@@ -15,17 +16,17 @@ const id = props.id
 const loading = ref(false)
 
 const originReaction = reactive<Reaction>({
-  like_count: props.reaction?.like_count || 0,
-  dislike_count: props.reaction?.dislike_count || 0,
-  like_state: props.reaction?.like_state || '',
-  favorite_state: props.reaction?.favorite_state || false,
+  like_count: props.reaction.like_count || 0,
+  dislike_count: props.reaction.dislike_count || 0,
+  like_state: props.reaction.like_state || '',
+  favorite_state: props.reaction.favorite_state || false,
 })
 
 const reaction = reactive<Reaction>({
-  like_count: props.reaction?.like_count || 0,
-  dislike_count: props.reaction?.dislike_count || 0,
-  like_state: props.reaction?.like_state || '',
-  favorite_state: props.reaction?.favorite_state || false,
+  like_count: props.reaction.like_count || 0,
+  dislike_count: props.reaction.dislike_count || 0,
+  like_state: props.reaction.like_state || '',
+  favorite_state: props.reaction.favorite_state || false,
 })
 
 const likeCount = computed(() => {
@@ -117,7 +118,7 @@ function sendLikeState(likeState: string) {
       @click="onLike"
     >
       <Icon name="icon-park-outline:thumbs-up" class="h-4 w-4" />
-      <div class="badge">{{ likeCount }}</div>
+      <div class="badge">{{ formatCompactNumber(likeCount) }}</div>
     </button>
 
     <button
@@ -127,7 +128,7 @@ function sendLikeState(likeState: string) {
       @click="onDislike"
     >
       <Icon name="icon-park-outline:thumbs-down" class="h-4 w-4" />
-      <div class="badge">{{ dislikeCount }}</div>
+      <div class="badge">{{ formatCompactNumber(dislikeCount) }}</div>
     </button>
   </div>
 </template>
