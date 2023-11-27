@@ -37,8 +37,8 @@ zod.setErrorMap(zodI18nMap)
 // schema
 const validationSchema = toTypedSchema(
   zod.object({
-    email: zod.string().nonempty().email(),
-    password: zod.string().nonempty().min(8),
+    email: zod.string().email(),
+    password: zod.string().min(8),
   }),
 )
 
@@ -166,10 +166,10 @@ function onInvalidSubmit({ values, errors, results }) {
       <button type="submit" class="btn btn-primary">Submit</button>
 
       <div class="flex justify-between space-x-2 text-sm">
-        <NuxtLink to="/register" class="link-primary link no-underline">
+        <NuxtLink to="/register" class="link link-primary no-underline">
           Register Now
         </NuxtLink>
-        <NuxtLink to="/?forgot-password" class="link-primary link no-underline">
+        <NuxtLink to="/?forgot-password" class="link link-primary no-underline">
           Forgot Password ?
         </NuxtLink>
       </div>
