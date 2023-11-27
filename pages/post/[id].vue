@@ -13,7 +13,7 @@ const { data: post } = await useApiFetch<Post>(`/api/post/${route.params.id}`, {
 <template>
   <div v-if="post">
     <!-- hero -->
-    <div class="hero h-80" :style="`background-image: url(${post.cover_url});`">
+    <div class="hero" :style="`background-image: url(${post.cover_url});`">
       <div class="hero-overlay bg-opacity-60"></div>
       <div class="hero-content text-center text-neutral-content">
         <div class="max-w-md">
@@ -22,7 +22,7 @@ const { data: post } = await useApiFetch<Post>(`/api/post/${route.params.id}`, {
       </div>
     </div>
 
-    <div class="space-x-2">
+    <div class="flex space-x-3">
       <FavoriteButton
         :id="post.id"
         :is-favorite="post.reaction?.favorite_state"
@@ -36,6 +36,7 @@ const { data: post } = await useApiFetch<Post>(`/api/post/${route.params.id}`, {
 
       <ShareButton />
     </div>
+
     <!-- content -->
     <div v-html="post?.content"></div>
   </div>

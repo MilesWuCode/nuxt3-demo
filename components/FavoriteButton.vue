@@ -65,7 +65,7 @@ const authAlert = () => {
       <Icon v-else name="IconHeartOutline" class="h-4 w-4" />
     </template>
   </button>
-  <button v-else @click="authAlert">
+  <button v-else class="btn" @click="authAlert">
     <Icon name="IconHeartOutline" class="h-4 w-4" />
   </button>
 </template>
