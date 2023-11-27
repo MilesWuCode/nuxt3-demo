@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const env = process.env.NODE_ENV
+</script>
 
 <template>
   <div>
@@ -8,7 +10,8 @@
     <!-- 區塊 -->
     <div class="flex justify-center">
       <div class="w-full max-w-sm">
-        {{ $t('lang') }}
+        <p>{{ $t('lang') }}</p>
+        <p>{{ env }}</p>
       </div>
     </div>
   </div>
