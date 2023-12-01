@@ -1,19 +1,22 @@
 <script setup lang="ts">
 const query = gql`
-  query getShips($limit: Int!) {
-    ships(limit: $limit) {
-      id
-      name
+  query {
+    posts(first: 3, page: 1) {
+      data {
+        id
+        title
+      }
     }
   }
 `
-const variables = { limit: 5 }
-const { data } = await useAsyncQuery(query, variables)
+
+const { data } = await useAsyncQuery(query)
 </script>
 
 <template>
   <div>
     <!-- 標題 -->
     <h1 class="flex justify-center text-2xl">Graphql</h1>
+    <pre>{{ data }}</pre>
   </div>
 </template>
