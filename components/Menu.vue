@@ -6,6 +6,7 @@ const menu = [
   { name: 'Profile', href: '/profile' },
   { name: 'Todo', href: '/todo' },
   { name: 'Post', href: '/post' },
+  { name: 'Graphql', href: '/graphql' },
 ]
 
 const hideMenu = () => {

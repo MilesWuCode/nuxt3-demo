@@ -1,114 +1,106 @@
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import { zodI18nMap } from 'zod-i18n-map'
-import * as i18next from 'i18next'
-import * as zod from 'zod'
-import ja from 'zod-i18n-map/locales/ja/zod.json'
-import zhHant from 'zod-i18n-map/locales/zh-TW/zod.json'
-import { useI18n } from '#imports'
+import { defineRule, configure, useForm, useField } from 'vee-validate'
+import { email as Email, required, min } from '@vee-validate/rules'
+import { setLocale, localize } from '@vee-validate/i18n'
+import ja from '@vee-validate/i18n/dist/locale/ja.json'
+import zhHant from '@vee-validate/i18n/dist/locale/zh_TW.json'
+
+configure({
+  generateMessage: localize({
+    'zh-Hant': zhHant,
+    ja,
+  }),
+  // 預設值
+  validateOnBlur: true, // controls if `blur` events should trigger validation with `handleChange` handler
+  validateOnChange: true, // controls if `change` events should trigger validation with `handleChange` handler
+  validateOnInput: false, // controls if `input` events should trigger validation with `handleChange` handler
+  validateOnModelUpdate: true, // controls if `update:modelValue` events should trigger validation with `handleChange` handler
+})
 
 // 語系
 const { locale, t } = useI18n()
 
-i18next.init({
-  lng: locale.value,
-  resources: {
-    'zh-Hant': { zod: zhHant },
-    ja: { zod: ja },
-  },
-})
+// 預設語系
+setLocale(locale.value)
 
+// 切換語系
 watch(locale, (newVal) => {
-  // 切換語系
-  i18next.changeLanguage(newVal)
+  setLocale(newVal)
 
   // 1.立即更新錯誤提示語系,需要重新驗證
   // meta.value.dirty && validate()
-
   // 2.若有api回傳錯誤的欄位,無翻譯建議重置表單
   // resetForm()
-
   // 3.建議不執行1或2,因為無法更新api回傳錯誤的欄位
 })
 
-zod.setErrorMap(zodI18nMap)
+defineRule('email', Email)
+defineRule('required', required)
+defineRule('min', min)
 
-// schema
-const validationSchema = toTypedSchema(
-  zod.object({
-    email: zod.string().email(),
-    password: zod.string().min(8),
-  }),
-)
+type FormValue = {
+  email: string
+  password: string
+}
 
-// form
-const {
-  errors,
-  handleSubmit,
-  meta,
-  resetForm,
-  // setErrors,
-  setFieldError,
-  validate,
-} = useForm({
-  validationSchema,
+const { errors, handleSubmit, setFieldError } = useForm<FormValue>({
   initialValues: {
     email: 'test@email.com',
     password: 'password',
   },
 })
 
-// field
-const { value: email } = useField('email')
-const { value: password } = useField('password')
+// 欄位
+const { value: email } = useField('email', 'required|email', {
+  label: '信箱',
+})
+
+const { value: password } = useField('password', 'required|min:8', {
+  label: '密碼',
+})
 
 // auth
 const { signIn } = useAuth()
 
 // router
 const route = useRoute()
+
 const runtimeConfig = useRuntimeConfig()
-const url = new URL(
+
+const callbackUrl = new URL(
   route.query.callbackUrl?.toString() || runtimeConfig.public.appUrl,
 )
 
-// submit
+// 送出/送出發生錯誤
 const onSubmit = handleSubmit(
-  async (values) => {
-    const signInResponse = await signIn('credentials', {
+  async (values, actions) => {
+    console.log(values, actions)
+
+    const { error, url } = await signIn('credentials', {
       email: values.email,
       password: values.password,
       redirect: false,
     })
 
-    // console.log('signInResponse', signInResponse)
-
-    // 若redirect為false時和定義signIn頁面不會重新刷新頁面到目的頁
-    // 可以使用回傳error判別
-    if (signInResponse?.error) {
+    if (error) {
       // Do your custom error handling here
+
       setFieldError('email', t('帳號或密碼錯誤'))
     } else {
       // No error, continue with the sign in, e.g., by following the returned redirect:
-      return navigateTo(url.pathname)
+
+      // return navigateTo(url, { external: true })
+      return navigateTo(callbackUrl.pathname)
     }
   },
-  () => onInvalidSubmit,
+  ({ values, errors, results }) => {
+    console.log(values, errors, results)
+
+    const name = Object.keys(errors)[0]
+
+    document.getElementsByName(name)[0].focus()
+  },
 )
-
-// error
-function onInvalidSubmit({ values, errors, results }) {
-  // field-name
-  const name = Object.keys(errors)[0]
-
-  // focus
-  document.getElementsByName(name)[0].focus()
-
-  console.log(values) // current form values
-  console.log(errors) // a map of field names and their first error message
-  console.log(results) // a detailed map of field names and their validation results
-}
 </script>
 
 <template>
@@ -117,14 +109,13 @@ function onInvalidSubmit({ values, errors, results }) {
     <div class="form-control">
       <label class="label">
         <span class="label-text" :class="errors.email && 'text-error'">
-          Email address
+          Email
         </span>
         <span class="label-text-alt"></span>
       </label>
 
       <input
         v-model="email"
-        label="信箱"
         name="email"
         type="text"
         class="input input-bordered"

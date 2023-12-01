@@ -4,6 +4,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxt/image',
+    '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
@@ -105,4 +106,12 @@ export default defineNuxtConfig({
 
   // 全域CSS
   css: ['@/assets/css/main.css'],
+
+  apollo: {
+    clients: {
+      default: {
+        httpEndpoint: 'http://localhost/graphql',
+      },
+    },
+  },
 })
