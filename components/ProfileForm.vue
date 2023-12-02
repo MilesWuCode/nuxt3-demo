@@ -1,40 +1,50 @@
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import { zodI18nMap } from 'zod-i18n-map'
-import * as i18next from 'i18next'
-import * as zod from 'zod'
-import translation from 'zod-i18n-map/locales/zh-TW/zod.json'
+import { defineRule, configure, useForm, useField } from 'vee-validate'
+import { required } from '@vee-validate/rules'
+import { setLocale, localize } from '@vee-validate/i18n'
+import ja from '@vee-validate/i18n/dist/locale/ja.json'
+import zhHant from '@vee-validate/i18n/dist/locale/zh_TW.json'
 
-// i18n
-i18next.init({
-  lng: 'zhTW',
-  resources: {
-    zhTW: { zod: translation },
-  },
-})
-
-zod.setErrorMap(zodI18nMap)
-
-// schema
-const validationSchema = toTypedSchema(
-  zod.object({
-    name: zod.string().nonempty(),
+configure({
+  generateMessage: localize({
+    'zh-Hant': zhHant,
+    ja,
   }),
-)
+  // 預設值
+  validateOnBlur: true, // controls if `blur` events should trigger validation with `handleChange` handler
+  validateOnChange: true, // controls if `change` events should trigger validation with `handleChange` handler
+  validateOnInput: false, // controls if `input` events should trigger validation with `handleChange` handler
+  validateOnModelUpdate: true, // controls if `update:modelValue` events should trigger validation with `handleChange` handler
+})
 
-const { data: userData } = await useApiFetch('/api/me')
+// 語系
+const { locale, t } = useI18n()
 
-// form
-const { handleSubmit, errors, setFieldError, setErrors } = useForm({
-  validationSchema,
+// 預設語系
+setLocale(locale.value)
+
+// 切換語系
+watch(locale, (newVal) => {
+  setLocale(newVal)
+})
+
+defineRule('required', required)
+
+type FormValue = {
+  name: string
+}
+
+const { errors, handleSubmit, setErrors } = useForm<FormValue>({
   initialValues: {
-    name: userData.value?.data.name || '',
+    name: 'test',
   },
 })
 
-// field
-const { value: name } = useField('name')
+// 欄位
+const { value: name } = useField('name', 'required', {
+  label: t('名稱'),
+})
+
 const { $toast } = useNuxtApp()
 
 // submit
@@ -69,15 +79,11 @@ const onSubmit = handleSubmit(
     })
   },
   ({ values, errors, results }) => {
-    // field-name
+    console.log(values, errors, results)
+
     const name = Object.keys(errors)[0]
 
-    // focus
     document.getElementsByName(name)[0].focus()
-
-    console.log(values) // current form values
-    console.log(errors) // a map of field names and their first error message
-    console.log(results) // a detailed map of field names and their validation results
   },
 )
 </script>
@@ -95,7 +101,6 @@ const onSubmit = handleSubmit(
 
       <input
         v-model="name"
-        label="名稱"
         name="name"
         type="text"
         class="input input-bordered"

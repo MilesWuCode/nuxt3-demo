@@ -1,86 +1,71 @@
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import { zodI18nMap } from 'zod-i18n-map'
-import * as i18next from 'i18next'
-import * as zod from 'zod'
-import ja from 'zod-i18n-map/locales/ja/zod.json'
-import zhHant from 'zod-i18n-map/locales/zh-TW/zod.json'
-import { useI18n } from '#imports'
+import { defineRule, configure, useForm, useField } from 'vee-validate'
+import { required } from '@vee-validate/rules'
+import { setLocale, localize } from '@vee-validate/i18n'
+import ja from '@vee-validate/i18n/dist/locale/ja.json'
+import zhHant from '@vee-validate/i18n/dist/locale/zh_TW.json'
+
+configure({
+  generateMessage: localize({
+    'zh-Hant': zhHant,
+    ja,
+  }),
+  // 預設值
+  validateOnBlur: true, // controls if `blur` events should trigger validation with `handleChange` handler
+  validateOnChange: true, // controls if `change` events should trigger validation with `handleChange` handler
+  validateOnInput: false, // controls if `input` events should trigger validation with `handleChange` handler
+  validateOnModelUpdate: true, // controls if `update:modelValue` events should trigger validation with `handleChange` handler
+})
 
 // 語系
 const { locale, t } = useI18n()
 
-i18next.init({
-  lng: locale.value,
-  resources: {
-    'zh-Hant': { zod: zhHant },
-    ja: { zod: ja },
+// 預設語系
+setLocale(locale.value)
+
+// 切換語系
+watch(locale, (newVal) => {
+  setLocale(newVal)
+})
+
+defineRule('required', required)
+
+type FormValue = {
+  password: string
+  newPassword: string
+  confirmPassword: string
+}
+
+const { errors, handleSubmit } = useForm<FormValue>({
+  initialValues: {
+    password: '',
+    newPassword: '',
+    confirmPassword: '',
   },
 })
 
-watch(locale, (newVal) => {
-  // 切換語系
-  i18next.changeLanguage(newVal)
-
-  // 1.立即更新錯誤提示語系,但會觸發驗證
-  meta.value.dirty && validate()
-
-  // 2.若有api回傳錯誤的欄位,建議重置表單
-  // resetForm()
-
-  // 3.不執行1或2,因為無法更新api回傳錯誤的欄位
+// 欄位
+const { value: password } = useField('password', 'required', {
+  label: t('密碼'),
 })
-
-zod.setErrorMap(zodI18nMap)
-
-// schema
-const validationSchema = toTypedSchema(
-  zod
-    .object({
-      password: zod.string().nonempty().min(8),
-      newPassword: zod.string().nonempty().min(8),
-      confirmPassword: zod.string().nonempty().min(8),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: t('與密碼不一致'),
-      path: ['confirmPassword'],
-    }),
-)
-
-// form
-const {
-  errors,
-  handleSubmit,
-  meta,
-  // resetForm,
-  // setErrors,
-  // setFieldError,
-  validate,
-} = useForm({
-  validationSchema,
+const { value: newPassword } = useField('newPassword', 'required', {
+  label: t('新密碼'),
 })
-
-// field
-const { value: password } = useField('password')
-const { value: newPassword } = useField('newPassword')
-const { value: confirmPassword } = useField('confirmPassword')
+const { value: confirmPassword } = useField('confirmPassword', 'required', {
+  label: t('確認密碼'),
+})
 
 // submit
 const onSubmit = handleSubmit(
-  (values) => {
-    console.log(values)
+  (values, actions) => {
+    console.log(values, actions)
   },
   ({ values, errors, results }) => {
-    // field-name
+    console.log(values, errors, results)
+
     const name = Object.keys(errors)[0]
 
-    // focus
     document.getElementsByName(name)[0].focus()
-
-    console.log(values) // current form values
-    console.log(errors) // a map of field names and their first error message
-    console.log(results) // a detailed map of field names and their validation results
   },
 )
 </script>
@@ -98,7 +83,6 @@ const onSubmit = handleSubmit(
 
       <input
         v-model="password"
-        label="密碼"
         name="password"
         type="password"
         class="input input-bordered"
@@ -122,7 +106,6 @@ const onSubmit = handleSubmit(
 
       <input
         v-model="newPassword"
-        label="新密碼"
         name="newPassword"
         type="password"
         class="input input-bordered"
@@ -149,7 +132,6 @@ const onSubmit = handleSubmit(
 
       <input
         v-model="confirmPassword"
-        label="確認密碼"
         name="confirmPassword"
         type="password"
         class="input input-bordered"

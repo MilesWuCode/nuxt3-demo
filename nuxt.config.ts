@@ -108,10 +108,20 @@ export default defineNuxtConfig({
   css: ['@/assets/css/main.css'],
 
   apollo: {
+    // autoImports: true,
+    // authType: 'Bearer',
+    // authHeader: 'Authorization',
+    // tokenStorage: 'cookie',
+    // proxyCookies: true,
     clients: {
-      default: {
-        httpEndpoint: 'http://localhost/graphql',
-      },
+      // default: {
+      //   httpEndpoint: 'http://localhost/graphql',
+      // },
+      default: './apollo/default.ts',
     },
+  },
+
+  image: {
+    domains: ['localhost'],
   },
 })

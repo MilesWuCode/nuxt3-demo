@@ -3,7 +3,7 @@ import zhHant from './locales/zh-Hant.json'
 
 export default defineI18nConfig(() => ({
   legacy: false,
-  locale: 'ja',
+  locale: 'zh-Hant',
   fallbackLocale: 'zh-Hant',
   messages: {
     'zh-Hant': zhHant,

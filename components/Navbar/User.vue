@@ -47,10 +47,7 @@ function echoConnect() {
   <div v-if="status === 'authenticated'" class="dropdown dropdown-end">
     <label tabindex="0" class="avatar btn btn-circle btn-ghost">
       <div class="w-8 rounded-full">
-        <NuxtImg
-          :src="data?.user?.avatar_url || '/'"
-          placeholder="/placeholder.jpg"
-        />
+        <img :src="data?.user?.avatar_url || '/placeholder.jpg'" />
       </div>
     </label>
     <ul

@@ -29,8 +29,10 @@ watch(locale, (newVal) => {
 
   // 1.立即更新錯誤提示語系,需要重新驗證
   // meta.value.dirty && validate()
+
   // 2.若有api回傳錯誤的欄位,無翻譯建議重置表單
   // resetForm()
+
   // 3.建議不執行1或2,因為無法更新api回傳錯誤的欄位
 })
 
@@ -52,11 +54,11 @@ const { errors, handleSubmit, setFieldError } = useForm<FormValue>({
 
 // 欄位
 const { value: email } = useField('email', 'required|email', {
-  label: '信箱',
+  label: t('信箱'),
 })
 
 const { value: password } = useField('password', 'required|min:8', {
-  label: '密碼',
+  label: t('密碼'),
 })
 
 // auth
