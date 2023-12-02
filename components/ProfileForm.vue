@@ -42,7 +42,7 @@ type FormValue = {
   name: string
 }
 
-const { errors, handleSubmit, setErrors, meta, validate } = useForm<FormValue>({
+const { errors, handleSubmit, meta, setErrors, validate } = useForm<FormValue>({
   initialValues: {
     name: user?.name,
   },
