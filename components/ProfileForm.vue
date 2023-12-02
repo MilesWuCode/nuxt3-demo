@@ -4,6 +4,7 @@ import { required } from '@vee-validate/rules'
 import { setLocale, localize } from '@vee-validate/i18n'
 import ja from '@vee-validate/i18n/dist/locale/ja.json'
 import zhHant from '@vee-validate/i18n/dist/locale/zh_TW.json'
+import type { User } from '@/types/User'
 
 configure({
   generateMessage: localize({
@@ -26,23 +27,31 @@ setLocale(locale.value)
 // 切換語系
 watch(locale, (newVal) => {
   setLocale(newVal)
+
+  !meta.value.valid && validate()
 })
 
 defineRule('required', required)
+
+// 取得資料
+const { data } = await useApiFetch<{ data: User }>('/api/me')
+
+const user = toRaw(data.value?.data)
 
 type FormValue = {
   name: string
 }
 
-const { errors, handleSubmit, setErrors } = useForm<FormValue>({
-  initialValues: {
-    name: 'test',
-  },
-})
+const { errors, handleSubmit, setErrors, meta, validate, setFieldError } =
+  useForm<FormValue>({
+    initialValues: {
+      name: user?.name,
+    },
+  })
 
 // 欄位
-const { value: name } = useField('name', 'required', {
-  label: t('名稱'),
+const { value: name } = useField<string>('name', 'required', {
+  label: computed(() => t('名稱')),
 })
 
 const { $toast } = useNuxtApp()
