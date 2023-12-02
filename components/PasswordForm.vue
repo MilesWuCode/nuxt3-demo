@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineRule, configure, useForm, useField } from 'vee-validate'
-import { required } from '@vee-validate/rules'
+import { confirmed, min, required } from '@vee-validate/rules'
 import { setLocale, localize } from '@vee-validate/i18n'
 import ja from '@vee-validate/i18n/dist/locale/ja.json'
 import zhHant from '@vee-validate/i18n/dist/locale/zh_TW.json'
@@ -26,8 +26,12 @@ setLocale(locale.value)
 // 切換語系
 watch(locale, (newVal) => {
   setLocale(newVal)
+
+  !meta.value.valid && validate()
 })
 
+defineRule('confirmed', confirmed)
+defineRule('min', min)
 defineRule('required', required)
 
 type FormValue = {
@@ -36,29 +40,41 @@ type FormValue = {
   confirmPassword: string
 }
 
-const { errors, handleSubmit } = useForm<FormValue>({
-  initialValues: {
-    password: '',
-    newPassword: '',
-    confirmPassword: '',
-  },
+const { errors, handleSubmit, meta, setErrors, validate } = useForm<FormValue>({
+  // initialValues: {
+  //   password: '',
+  //   newPassword: '',
+  //   confirmPassword: '',
+  // },
 })
 
 // 欄位
-const { value: password } = useField('password', 'required', {
-  label: t('密碼'),
+const { value: password } = useField<string>('password', 'required|min:8', {
+  label: computed(() => t('密碼')),
 })
-const { value: newPassword } = useField('newPassword', 'required', {
-  label: t('新密碼'),
-})
-const { value: confirmPassword } = useField('confirmPassword', 'required', {
-  label: t('確認密碼'),
-})
+const { value: newPassword } = useField<string>(
+  'newPassword',
+  'required|min:8',
+  {
+    label: computed(() => t('新密碼')),
+  },
+)
+const { value: confirmPassword } = useField<string>(
+  'confirmPassword',
+  'required|confirmed:@newPassword',
+  {
+    label: computed(() => t('確認密碼')),
+  },
+)
+
+const { $toast } = useNuxtApp()
 
 // submit
 const onSubmit = handleSubmit(
   (values, actions) => {
     console.log(values, actions)
+
+    $toast.success('Success')
   },
   ({ values, errors, results }) => {
     console.log(values, errors, results)
