@@ -42,12 +42,11 @@ type FormValue = {
   name: string
 }
 
-const { errors, handleSubmit, setErrors, meta, validate, setFieldError } =
-  useForm<FormValue>({
-    initialValues: {
-      name: user?.name,
-    },
-  })
+const { errors, handleSubmit, setErrors, meta, validate } = useForm<FormValue>({
+  initialValues: {
+    name: user?.name,
+  },
+})
 
 // 欄位
 const { value: name } = useField<string>('name', 'required', {
