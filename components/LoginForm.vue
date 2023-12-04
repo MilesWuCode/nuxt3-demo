@@ -79,7 +79,7 @@ const onSubmit = handleSubmit(
   async (values, actions) => {
     console.log(values, actions)
 
-    const { error, url } = await signIn('credentials', {
+    const { error, url }: any = await signIn('credentials', {
       email: values.email,
       password: values.password,
       redirect: false,
@@ -90,9 +90,11 @@ const onSubmit = handleSubmit(
 
       setFieldError('email', t('帳號或密碼錯誤'))
     } else {
-      // No error, continue with the sign in, e.g., by following the returned redirect:
+      console.log(url)
 
+      // No error, continue with the sign in, e.g., by following the returned redirect:
       // return navigateTo(url, { external: true })
+
       return navigateTo(callbackUrl.pathname)
     }
   },
