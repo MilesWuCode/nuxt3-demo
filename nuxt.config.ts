@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     public: {
       appName: process.env.APP_NAME,
       appUrl: process.env.APP_URL,
+      apiEndpoint: process.env.API_ENDPOINT,
       pusher: {
         appKey: process.env.PUSHER_APP_KEY,
         appHost: process.env.PUSHER_HOST,

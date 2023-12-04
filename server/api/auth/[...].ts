@@ -49,6 +49,8 @@ export default NuxtAuthHandler({
 
           return user
         } catch (error) {
+          console.log(error)
+
           return null
         }
       },
@@ -115,7 +117,7 @@ type SocialiteSignInResponse = {
 
 async function socialiteSignIn(provider: string, providerToken: string) {
   const { token } = await $fetch<SocialiteSignInResponse>(
-    `${process.env.API_ENDPOINT}/api/socialite/signin`,
+    `${runtimeConfig.public.apiEndpoint}/api/socialite/signin`,
     {
       method: 'POST',
       body: JSON.stringify({
@@ -142,7 +144,7 @@ type MeResponse = {
 
 async function fetchUser(accessToken: string) {
   const { data } = await $fetch<MeResponse>(
-    `${process.env.API_ENDPOINT}/api/me`,
+    `${runtimeConfig.public.apiEndpoint}/api/me`,
     {
       method: 'GET',
       headers: {
@@ -160,7 +162,7 @@ type LoginResponse = {
 
 async function login(credentials: Credential) {
   const { token } = await $fetch<LoginResponse>(
-    `${process.env.API_ENDPOINT}/api/auth/login`,
+    `${runtimeConfig.public.apiEndpoint}/api/auth/login`,
     {
       method: 'POST',
       body: JSON.stringify({

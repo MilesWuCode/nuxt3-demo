@@ -45,12 +45,13 @@ type FormValue = {
   password: string
 }
 
-const { errors, handleSubmit, meta, validate } = useForm<FormValue>({
-  initialValues: {
-    email: 'test@email.com',
-    password: 'password',
-  },
-})
+const { errors, handleSubmit, meta, setFieldError, validate } =
+  useForm<FormValue>({
+    initialValues: {
+      email: 'test@email.com',
+      password: 'password',
+    },
+  })
 
 // 欄位
 const { value: email } = useField('email', 'required|email', {
