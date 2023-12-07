@@ -20,6 +20,8 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@egjs/flicking-plugins": "^4.7.1",
+    "@egjs/vue3-flicking": "^4.11.1",
     "@nuxt/image": "^1.1.0",
     "@nuxtjs/apollo": "^5.0.0-alpha.10",
     "@nuxtjs/eslint-config": "^12.0.0",
