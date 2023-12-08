@@ -115,10 +115,10 @@ export default defineNuxtConfig({
     // tokenStorage: 'cookie',
     // proxyCookies: true,
     clients: {
-      // default: {
-      //   httpEndpoint: 'http://localhost/graphql',
-      // },
-      default: './apollo/default.ts',
+      default: {
+        // httpEndpoint: 'http://localhost/graphql',
+        httpEndpoint: 'https://spacex-production.up.railway.app',
+      },
     },
   },
 

@@ -8,12 +8,12 @@ type PostResult = {
 }
 
 const query = gql`
-  query {
-    posts(first: 3, page: 1) {
-      data {
-        id
-        title
-      }
+  query ExampleQuery {
+    company {
+      ceo
+    }
+    roadster {
+      apoapsis_au
     }
   }
 `
@@ -25,6 +25,6 @@ const { data } = await useAsyncQuery<PostResult>(query)
   <div>
     <!-- 標題 -->
     <h1 class="flex justify-center text-2xl">Graphql</h1>
-    <pre>{{ data.posts }}</pre>
+    <pre>{{ data }}</pre>
   </div>
 </template>
