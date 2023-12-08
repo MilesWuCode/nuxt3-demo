@@ -43,6 +43,7 @@
     "@vueuse/core": "^10.7.0",
     "@vueuse/nuxt": "^10.7.0",
     "daisyui": "^4.4.19",
+    "embla-carousel-autoplay": "^8.0.0-rc15",
     "embla-carousel-vue": "^8.0.0-rc15",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
