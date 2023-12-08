@@ -41,11 +41,3 @@ const plugins = [
     <button class="btn" @click="circular">circular</button>
   </div>
 </template>
-
-<style>
-.flicking-panel {
-  width: 400px;
-  height: 300px;
-  border-left: 1px solid red;
-}
-</style>
