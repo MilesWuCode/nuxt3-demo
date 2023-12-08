@@ -7,7 +7,7 @@ const menu = [
   { name: 'Todo', href: '/todo' },
   { name: 'Post', href: '/post' },
   { name: 'Graphql', href: '/graphql' },
-  { name: 'Flicking', href: '/flicking' },
+  { name: 'Carousel', href: '/carousel' },
 ]
 
 const hideMenu = () => {
