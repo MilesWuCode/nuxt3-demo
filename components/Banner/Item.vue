@@ -9,12 +9,12 @@ defineProps<{
 <template>
   <a :href="banner.link">
     <NuxtImg
-      :src="banner.cover"
+      :src="banner.cover || '/placeholder.jpg'"
       :alt="banner.name"
       width="600"
       height="300"
       loading="lazy"
-      placeholder="placeholder.jpg"
+      placeholder="/placeholder.jpg"
       class="h-[300px] w-[600px] object-cover"
     />
   </a>

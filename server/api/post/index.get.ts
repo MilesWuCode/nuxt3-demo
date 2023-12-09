@@ -8,11 +8,11 @@ export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)
 
   if (!session) {
-    throw createError({ status: 401, statusMessage: 'Unauthorized' })
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }
 
   const data = await prisma.user
-    .findUnique({ where: { id: session.user.id } })
+    .findUnique({ where: { id: session.user.id as number } })
     .posts()
 
   return {

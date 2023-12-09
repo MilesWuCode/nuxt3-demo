@@ -1,78 +1,95 @@
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import { zodI18nMap } from 'zod-i18n-map'
-import * as i18next from 'i18next'
-import * as zod from 'zod'
-import translation from 'zod-i18n-map/locales/zh-TW/zod.json'
+import { defineRule, configure, useForm, useField } from 'vee-validate'
+import { confirmed, email as Email, min, required } from '@vee-validate/rules'
+import { setLocale, localize } from '@vee-validate/i18n'
+import ja from '@vee-validate/i18n/dist/locale/ja.json'
+import zhHant from '@vee-validate/i18n/dist/locale/zh_TW.json'
 
-const router = useRouter()
-
-// i18n
-i18next.init({
-  lng: 'zhTW',
-  resources: {
-    zhTW: { zod: translation },
-  },
+configure({
+  generateMessage: localize({
+    'zh-Hant': zhHant,
+    ja,
+  }),
+  // 預設值
+  validateOnBlur: true, // controls if `blur` events should trigger validation with `handleChange` handler
+  validateOnChange: true, // controls if `change` events should trigger validation with `handleChange` handler
+  validateOnInput: false, // controls if `input` events should trigger validation with `handleChange` handler
+  validateOnModelUpdate: true, // controls if `update:modelValue` events should trigger validation with `handleChange` handler
 })
 
-zod.setErrorMap(zodI18nMap)
+// 語系
+const { locale, t } = useI18n()
 
-// schema
-const validationSchema = toTypedSchema(
-  zod.object({
-    name: zod.string(),
-    email: zod.string().nonempty().email(),
-    password: zod.string().nonempty().min(8),
-    confirmPassword: zod.string().nonempty().min(8),
-  }),
+// 預設語系
+setLocale(locale.value)
+
+// 切換語系
+watch(locale, (newVal) => {
+  setLocale(newVal)
+
+  !meta.value.valid && validate()
+})
+
+defineRule('confirmed', confirmed)
+defineRule('email', Email)
+defineRule('min', min)
+defineRule('required', required)
+
+type FormValue = {
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
+const { errors, handleSubmit, meta, setErrors, validate } = useForm<FormValue>({
+  // initialValues: {
+  //   name: user?.name,
+  // },
+})
+
+// 欄位
+const { value: name } = useField<string>('name', 'required', {
+  label: computed(() => t('名稱')),
+})
+
+const { value: email } = useField<string>('email', 'required|email', {
+  label: computed(() => t('信箱')),
+})
+
+const { value: password } = useField<string>('password', 'required|min:8', {
+  label: computed(() => t('密碼')),
+})
+
+const { value: confirmPassword } = useField<string>(
+  'confirmPassword',
+  'required|confirmed:@password',
+  {
+    label: computed(() => t('確認密碼')),
+  },
 )
 
-// form
-const { handleSubmit, errors, setErrors } = useForm({
-  validationSchema,
-  initialValues: {
-    name: 'jack',
-    email: 'jack@email.com',
-    password: 'password',
-    confirmPassword: 'password',
-  },
-})
-
-// field
-const { value: name } = useField('name')
-const { value: email } = useField('email')
-const { value: password } = useField('password')
-const { value: confirmPassword } = useField('confirmPassword')
+const { $toast } = useNuxtApp()
 
 // submit
 const onSubmit = handleSubmit(
   async (values) => {
-    // console.log(values)
-
+    console.log(values)
     await useApiFetch('/api/auth/register', {
       method: 'post',
       body: {
         name: values.name,
         email: values.email,
         password: values.password,
-        comfirm_password: values.confirmPassword,
-      },
-      onRequest({ request, options }) {
-        // Set the request headers
-        console.log(request, options)
-      },
-      onRequestError({ request, options, error }) {
-        // Handle the request errors
-        console.log(request, options, error)
+        confirm_password: values.confirmPassword,
       },
       onResponse({ request, response, options }) {
         // Process the response data
         console.log(request, response, options)
 
-        if (response.status === 200) {
+        if (response.ok) {
           // 成功
-          router.push('/login')
+          $toast.success('Success')
         }
       },
       onResponseError({ request, response, options }) {
@@ -83,26 +100,24 @@ const onSubmit = handleSubmit(
           console.log(response._data)
 
           setErrors(response._data.errors)
+        } else {
+          $toast.error('Error')
         }
       },
     })
   },
   ({ values, errors, results }) => {
-    // field-name
+    console.log(values, errors, results)
+
     const name = Object.keys(errors)[0]
 
-    // focus
     document.getElementsByName(name)[0].focus()
-
-    console.log(values) // current form values
-    console.log(errors) // a map of field names and their first error message
-    console.log(results) // a detailed map of field names and their validation results
   },
 )
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" @invalid-submit="onInvalidSubmit">
+  <form @submit.prevent="onSubmit">
     <!-- 欄位 -->
     <div class="form-control">
       <label class="label">
@@ -114,7 +129,6 @@ const onSubmit = handleSubmit(
 
       <input
         v-model="name"
-        label="名稱"
         name="name"
         type="text"
         class="input input-bordered"
@@ -138,7 +152,6 @@ const onSubmit = handleSubmit(
 
       <input
         v-model="email"
-        label="信箱"
         name="email"
         type="text"
         class="input input-bordered"
@@ -162,7 +175,6 @@ const onSubmit = handleSubmit(
 
       <input
         v-model="password"
-        label="密碼"
         name="password"
         type="password"
         class="input input-bordered"
@@ -189,7 +201,6 @@ const onSubmit = handleSubmit(
 
       <input
         v-model="confirmPassword"
-        label="確認密碼"
         name="confirmPassword"
         type="password"
         class="input input-bordered"
@@ -208,7 +219,7 @@ const onSubmit = handleSubmit(
     <div class="flex flex-col space-y-2">
       <button type="submit" class="btn btn-primary">Submit</button>
 
-      <NuxtLink to="/login" class="link-primary link text-sm no-underline">
+      <NuxtLink to="/login" class="link link-primary text-sm no-underline">
         Back To Login
       </NuxtLink>
     </div>

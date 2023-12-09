@@ -7,6 +7,12 @@
 # update
 
 ```sh
+# update
 npx nuxi upgrade
+
+# update write
 npx taze -Pw
+
+# typescript check
+npx nuxi typecheck
 ```

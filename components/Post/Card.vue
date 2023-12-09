@@ -11,12 +11,12 @@ defineProps<{
     <div class="card card-compact w-96 border border-base-300 bg-base-100">
       <figure>
         <NuxtImg
-          :src="post.cover_url"
+          :src="post.cover_url || '/placeholder.jpg'"
           :alt="post.title"
           width="384"
           height="192"
           loading="lazy"
-          placeholder="placeholder.jpg"
+          placeholder="/placeholder.jpg"
           class="h-[192px] w-[384px] object-cover"
         />
       </figure>

@@ -17,7 +17,7 @@ definePageMeta({
     <div class="flex justify-center">
       <div class="w-full max-w-sm">
         <!-- 表單 -->
-        <!-- <RegisterForm /> -->
+        <RegisterForm />
       </div>
     </div>
   </div>
