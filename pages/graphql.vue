@@ -8,15 +8,26 @@ type PostResult = {
 }
 
 const query = gql`
-  query ExampleQuery {
-    company {
-      ceo
-    }
-    roadster {
-      apoapsis_au
+  query Posts {
+    posts(first: 3, page: 1) {
+      data {
+        id
+        title
+      }
     }
   }
 `
+
+// const query = gql`
+//   query ExampleQuery {
+//     company {
+//       ceo
+//     }
+//     roadster {
+//       apoapsis_au
+//     }
+//   }
+// `
 
 const { data } = await useAsyncQuery<PostResult>(query)
 </script>
