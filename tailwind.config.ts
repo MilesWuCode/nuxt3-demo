@@ -18,7 +18,8 @@ export default {
   // 也可以用 plugins: [require('daisyui')],
   plugins: [daisyui],
   daisyui: {
-    // 空陣列為不使用
-    themes: ['light'],
+    themes: false,
+    darkTheme: 'light',
+    logs: false,
   },
 } satisfies Config
