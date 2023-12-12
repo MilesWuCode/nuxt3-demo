@@ -4,10 +4,10 @@ import Autoplay from 'embla-carousel-autoplay'
 
 const [emblaNode, emblaApi] = emblaCarouselVue(
   {
-    loop: false,
+    loop: !true,
     dragFree: true,
     align: 'start',
-    slidesToScroll: 2,
+    // slidesToScroll: 2,
   },
   [
     /* Autoplay({ delay: 3000 }) */
@@ -16,7 +16,7 @@ const [emblaNode, emblaApi] = emblaCarouselVue(
 
 const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
-const dots = computed(() => emblaApi.value?.scrollSnapList() || [])
+const dots = ref<number[]>([])
 
 const canPrev = ref(false)
 
@@ -27,6 +27,7 @@ const scrollIndex = ref<number>(0)
 watchEffect(() => {
   if (emblaApi.value) {
     emblaApi.value.on('select', onSelect)
+    emblaApi.value.on('resize', onSelect)
 
     onSelect()
   }
@@ -34,6 +35,7 @@ watchEffect(() => {
 
 const onSelect = () => {
   if (emblaApi.value) {
+    dots.value = emblaApi.value?.scrollSnapList()
     scrollIndex.value = emblaApi.value.selectedScrollSnap()
     canPrev.value = emblaApi.value?.canScrollPrev() || false
     canNext.value = emblaApi.value?.canScrollNext() || false
@@ -77,7 +79,7 @@ const onNext = () => {
         :class="{ 'btn-info': idx === scrollIndex }"
         @click="scrollTo(idx)"
       >
-        {{ idx }}
+        {{ idx + 1 }}
       </button>
     </div>
   </div>
@@ -86,7 +88,7 @@ const onNext = () => {
 <style scoped>
 .embla {
   overflow: hidden;
-  width: 1200px;
+  /* width: 400px; */
 }
 .embla__container {
   display: flex;
