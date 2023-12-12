@@ -62,18 +62,10 @@ const onNext = () => {
       </div>
     </div>
     <div class="absolute left-[100px] top-[100px]">
-      <button
-        class="btn btn-lg z-[1]"
-        :disabled="!canPrev || scrolling"
-        @click="onPrev"
-      >
+      <button class="btn btn-lg z-[1]" :disabled="!canPrev" @click="onPrev">
         Prev
       </button>
-      <button
-        class="btn btn-lg z-[1]"
-        :disabled="!canNext || scrolling"
-        @click="onNext"
-      >
+      <button class="btn btn-lg z-[1]" :disabled="!canNext" @click="onNext">
         Next
       </button>
     </div>
