@@ -42,7 +42,7 @@ const onSelect = () => {
   }
 }
 
-const scrollTo = (index: number) => {
+const onScrollTo = (index: number) => {
   emblaApi.value && emblaApi.value.scrollTo(index)
 }
 
@@ -77,7 +77,7 @@ const onNext = () => {
         :key="idx"
         class="btn btn-xs"
         :class="{ 'btn-info': idx === scrollIndex }"
-        @click="scrollTo(idx)"
+        @click="onScrollTo(idx)"
       >
         {{ idx + 1 }}
       </button>
